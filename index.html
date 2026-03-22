@@ -1,474 +1,1734 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>商業策略與組織 - 深度口試準備神器</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>企業組織與策略導論 | Linear Style 深度研究平台</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    .fade-enter-active, .fade-leave-active { transition: opacity 0.3s ease, transform 0.3s ease; }
-    .fade-enter-from, .fade-leave-to { opacity: 0; transform: translateY(15px); }
-
-    .tab-fade-enter-active, .tab-fade-leave-active { transition: opacity 0.2s ease, transform 0.2s ease; }
-    .tab-fade-enter-from, .tab-fade-leave-to { opacity: 0; transform: translateY(5px); }
-
-    /* 大膽的動態線性漸層背景 */
-    .bold-gradient-bg {
-      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-    }
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* 玻璃擬態效果 */
-    .glass-panel {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-      border-right: 1px solid rgba(255, 255, 255, 0.3);
+    :root {
+      --bg: #090d14;
+      --bg-elev: #0f1623;
+      --bg-panel: #121b2b;
+      --bg-soft: #0d1320;
+      --border: #243349;
+      --border-strong: #304663;
+      --text: #e8eef9;
+      --muted: #9aabc2;
+      --accent: #67b7ff;
+      --accent-soft: rgba(103, 183, 255, 0.18);
+      --success: #87d8ad;
+      --warning: #ffbb7c;
+      --danger: #ff8f9f;
+      --shadow: 0 24px 70px rgba(2, 6, 15, 0.55);
+      --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --sans: "Manrope", "Segoe UI", sans-serif;
     }
 
-    .glass-card {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+    * {
+      box-sizing: border-box;
     }
 
-    /* 自訂捲軸 */
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.4); border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.6); }
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+    }
 
-    /* 富文本內容樣式優化 */
-    .rich-content p { margin-bottom: 0.75rem; }
-    .rich-content p:last-child { margin-bottom: 0; }
-    .rich-content ul { list-style-type: disc; padding-left: 1.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem; }
-    .rich-content ol { list-style-type: decimal; padding-left: 1.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem; }
-    .rich-content li { margin-bottom: 0.25rem; }
-    .rich-content strong { color: #1e293b; font-weight: 700; }
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      background-image:
+        linear-gradient(rgba(87, 112, 150, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(87, 112, 150, 0.07) 1px, transparent 1px);
+      background-size: 44px 44px;
+      opacity: 0.35;
+    }
+
+    body::after {
+      background:
+        radial-gradient(680px 320px at 12% -10%, rgba(98, 177, 255, 0.25), transparent 72%),
+        radial-gradient(560px 280px at 88% -18%, rgba(127, 218, 255, 0.22), transparent 72%);
+      opacity: 0.75;
+    }
+
+    #app {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(10, 15, 25, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 280px;
+    }
+
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      border: 1px solid rgba(121, 177, 255, 0.55);
+      background: linear-gradient(140deg, rgba(106, 171, 255, 0.25), rgba(133, 233, 255, 0.1));
+      display: grid;
+      place-items: center;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    .brand-mark::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      border: 1px solid rgba(186, 225, 255, 0.8);
+      background: rgba(137, 213, 255, 0.18);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.25;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .brand p {
+      margin: 1px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      justify-content: flex-end;
+    }
+
+    .search-wrap {
+      position: relative;
+      min-width: 280px;
+      max-width: 460px;
+      width: 46%;
+    }
+
+    .search-input {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(15, 22, 35, 0.82);
+      color: var(--text);
+      padding: 11px 14px;
+      font-size: 13px;
+      font-family: var(--mono);
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .search-input::placeholder {
+      color: #6f819d;
+    }
+
+    .search-input:focus {
+      border-color: rgba(114, 190, 255, 0.7);
+      box-shadow: 0 0 0 3px rgba(114, 190, 255, 0.2);
+    }
+
+    .ghost-btn,
+    .primary-btn {
+      border-radius: 11px;
+      border: 1px solid var(--border);
+      padding: 10px 13px;
+      font-size: 12px;
+      font-family: var(--mono);
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .ghost-btn {
+      background: rgba(14, 20, 32, 0.85);
+      color: #c7d8ef;
+    }
+
+    .ghost-btn:hover {
+      border-color: var(--border-strong);
+      background: #131f33;
+      color: #e4f0ff;
+    }
+
+    .primary-btn {
+      background: linear-gradient(130deg, rgba(84, 167, 255, 0.24), rgba(129, 224, 255, 0.18));
+      color: #dff4ff;
+      border-color: rgba(97, 177, 255, 0.55);
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(62, 154, 255, 0.22);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+      gap: 18px;
+      padding: 18px;
+      max-width: 1580px;
+      margin: 0 auto;
+      min-height: calc(100vh - 74px);
+    }
+
+    .sidebar {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(17, 26, 42, 0.95), rgba(11, 17, 28, 0.95));
+      border-radius: 18px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      height: fit-content;
+      max-height: calc(100vh - 114px);
+      position: sticky;
+      top: 92px;
+      overflow: auto;
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar h2 {
+      margin: 0;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #b1c7e7;
+      font-family: var(--mono);
+      font-weight: 500;
+    }
+
+    .sidebar p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .progress-wrap {
+      border: 1px solid rgba(75, 99, 133, 0.35);
+      border-radius: 13px;
+      background: rgba(8, 13, 22, 0.6);
+      padding: 10px;
+    }
+
+    .progress-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #adc3e5;
+      font-family: var(--mono);
+      margin-bottom: 8px;
+    }
+
+    .progress-track {
+      width: 100%;
+      border-radius: 999px;
+      background: #182337;
+      height: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(87, 120, 168, 0.35);
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #61b6ff, #8fe2ff);
+      transition: width 0.28s ease;
+    }
+
+    .chapter-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .chapter-btn {
+      width: 100%;
+      text-align: left;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #c6d7f0;
+      padding: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+    }
+
+    .chapter-btn:hover {
+      border-color: rgba(78, 113, 162, 0.55);
+      background: rgba(18, 30, 49, 0.72);
+    }
+
+    .chapter-btn.active {
+      border-color: rgba(105, 186, 255, 0.62);
+      background: linear-gradient(135deg, rgba(88, 162, 255, 0.18), rgba(52, 106, 164, 0.14));
+      box-shadow: inset 0 0 0 1px rgba(133, 202, 255, 0.18);
+    }
+
+    .chapter-index {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: #84b8ef;
+      margin-top: 2px;
+    }
+
+    .chapter-title {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.35;
+      font-weight: 600;
+      color: #dce8f8;
+    }
+
+    .chapter-sub {
+      margin: 4px 0 0;
+      font-size: 12px;
+      line-height: 1.45;
+      color: #90a5c1;
+    }
+
+    .stats-grid {
+      margin-top: 4px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .stat {
+      border-radius: 10px;
+      border: 1px solid rgba(73, 101, 140, 0.55);
+      padding: 9px;
+      background: rgba(8, 12, 20, 0.72);
+    }
+
+    .stat .k {
+      margin: 0;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: #7f9ac0;
+      font-family: var(--mono);
+    }
+
+    .stat .v {
+      margin: 3px 0 0;
+      font-size: 17px;
+      font-weight: 700;
+      color: #daf1ff;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: linear-gradient(170deg, rgba(17, 25, 40, 0.96), rgba(12, 18, 30, 0.96));
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 22px;
+    }
+
+    .eyebrow {
+      margin: 0;
+      font-size: 12px;
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: #8dbce6;
+    }
+
+    .hero h3 {
+      margin: 8px 0 12px;
+      font-size: clamp(26px, 4vw, 34px);
+      line-height: 1.18;
+      letter-spacing: -0.01em;
+    }
+
+    .hero p {
+      margin: 0;
+      font-size: 15px;
+      color: #b8cae2;
+      max-width: 1020px;
+    }
+
+    .tag-row {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      border: 1px solid rgba(111, 156, 218, 0.45);
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: rgba(15, 30, 50, 0.75);
+      color: #d5e7ff;
+      font-size: 11px;
+      font-family: var(--mono);
+    }
+
+    .panel-switch {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      padding: 8px;
+    }
+
+    .panel-btn {
+      border-radius: 12px;
+      border: 1px solid transparent;
+      background: transparent;
+      padding: 11px 10px;
+      color: #b1c5e2;
+      font-size: 12px;
+      font-family: var(--mono);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .panel-btn:hover {
+      border-color: rgba(85, 117, 159, 0.55);
+      background: rgba(19, 31, 49, 0.65);
+      color: #d1e4ff;
+    }
+
+    .panel-btn.active {
+      border-color: rgba(96, 176, 255, 0.62);
+      background: linear-gradient(130deg, rgba(82, 162, 255, 0.22), rgba(116, 227, 255, 0.13));
+      color: #e8f5ff;
+    }
+
+    .content-card {
+      padding: 22px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 14px;
+      letter-spacing: 0.03em;
+      color: #d7e8ff;
+      font-weight: 700;
+    }
+
+    .section-desc {
+      margin: 8px 0 0;
+      color: #a7b8d1;
+      font-size: 14px;
+      max-width: 1100px;
+    }
+
+    .bullet-list {
+      margin: 16px 0 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 11px;
+    }
+
+    .bullet-list li {
+      color: #d0ddf0;
+      font-size: 14px;
+    }
+
+    .framework-grid,
+    .case-grid,
+    .insight-grid {
+      margin-top: 16px;
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .mini-card {
+      border: 1px solid rgba(81, 112, 155, 0.6);
+      border-radius: 14px;
+      padding: 14px;
+      background: rgba(11, 19, 32, 0.9);
+    }
+
+    .mini-card h4 {
+      margin: 0;
+      color: #dbecff;
+      font-size: 14px;
+      letter-spacing: 0.01em;
+    }
+
+    .mini-card p {
+      margin: 8px 0 0;
+      color: #a8bdd9;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .drill-grid {
+      margin-top: 16px;
+      display: grid;
+      gap: 12px;
+      grid-template-columns: 1.1fr 1fr;
+    }
+
+    .drill-card {
+      border: 1px solid rgba(78, 112, 155, 0.62);
+      border-radius: 14px;
+      padding: 15px;
+      background: rgba(11, 18, 30, 0.92);
+    }
+
+    .drill-card h4 {
+      margin: 0;
+      font-size: 14px;
+      color: #d7ebff;
+    }
+
+    .question-box {
+      margin-top: 10px;
+      border-radius: 12px;
+      border: 1px dashed rgba(109, 160, 224, 0.48);
+      padding: 12px;
+      color: #c8dcf7;
+      min-height: 66px;
+      background: rgba(15, 26, 42, 0.55);
+    }
+
+    .drill-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .drill-list {
+      margin: 10px 0 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .drill-list li {
+      font-size: 13px;
+      color: #bfcee4;
+    }
+
+    .pill {
+      display: inline-block;
+      margin-top: 10px;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 11px;
+      font-family: var(--mono);
+      border: 1px solid;
+    }
+
+    .pill.success {
+      border-color: rgba(133, 218, 174, 0.6);
+      color: #bdecd2;
+      background: rgba(17, 41, 30, 0.6);
+    }
+
+    .pill.warning {
+      border-color: rgba(248, 188, 121, 0.56);
+      color: #ffd8ae;
+      background: rgba(48, 31, 8, 0.55);
+    }
+
+    .mobile-nav {
+      display: none;
+      padding: 12px;
+    }
+
+    .mobile-nav label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 11px;
+      color: #94aed0;
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .mobile-nav select {
+      width: 100%;
+      border-radius: 11px;
+      border: 1px solid var(--border);
+      background: #10192a;
+      color: var(--text);
+      padding: 10px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .empty-state {
+      padding: 28px;
+      text-align: center;
+    }
+
+    .empty-state h3 {
+      margin: 0;
+      font-size: 20px;
+      color: #deecff;
+    }
+
+    .empty-state p {
+      margin: 8px 0 0;
+      color: #9bb0ce;
+    }
+
+    .fade-enter-active,
+    .fade-leave-active {
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .fade-enter-from,
+    .fade-leave-to {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+
+    .rise {
+      animation: rise 0.4s ease;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(9px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 1150px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .mobile-nav {
+        display: block;
+      }
+
+      .topbar {
+        flex-wrap: wrap;
+      }
+
+      .brand {
+        min-width: 0;
+      }
+
+      .topbar-actions {
+        width: 100%;
+        justify-content: stretch;
+      }
+
+      .search-wrap {
+        width: 100%;
+        max-width: none;
+      }
+
+      .panel-switch {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .framework-grid,
+      .case-grid,
+      .insight-grid,
+      .drill-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
   </style>
 </head>
-<body class="bold-gradient-bg min-h-screen text-gray-800 selection:bg-pink-300 selection:text-pink-900">
-  <div id="app" class="flex flex-col h-screen">
-
-    <!-- Header -->
-    <header class="glass-panel text-white shadow-xl p-4 md:p-5 flex items-center justify-between z-20 shrink-0">
-      <div class="flex items-center space-x-3">
-        <div class="bg-white/20 backdrop-blur-md p-2.5 rounded-lg shadow-lg border border-white/30">
-          <i class="fa-solid fa-graduation-cap text-xl"></i>
-        </div>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark"></div>
         <div>
-          <h1 class="text-lg md:text-2xl font-bold tracking-wide drop-shadow-md">{{ ui.appTitle[lang] }}</h1>
-          <p class="text-xs text-white/80 mt-1 uppercase tracking-wider font-semibold">{{ ui.appSub[lang] }}</p>
+          <h1>Linear Strategy Research Deck</h1>
+          <p>企業組織與策略導論 | 深度口試版</p>
         </div>
       </div>
-      <div class="flex items-center space-x-4">
-        <div class="hidden md:flex items-center text-sm bg-black/10 px-4 py-2 rounded-full border border-white/20 backdrop-blur-md shadow-inner">
-          <i class="fa-solid fa-bolt text-yellow-300 mr-2"></i><span>{{ ui.interactive[lang] }}</span>
+
+      <div class="topbar-actions">
+        <div class="search-wrap">
+          <input
+            v-model.trim="search"
+            class="search-input"
+            type="text"
+            placeholder="搜尋章節、模型、案例（例如 VRIO、五力、Kotter）"
+          >
         </div>
-        <!-- Language Toggle -->
-        <button @click="toggleLang" class="bg-white/20 hover:bg-white/30 backdrop-blur-md transition-all border border-white/40 px-3 py-1.5 rounded-full text-sm font-bold shadow-lg flex items-center">
-          <i class="fa-solid fa-earth-americas mr-2"></i> {{ lang === 'zh' ? 'EN' : '中文' }}
-        </button>
+        <button class="ghost-btn" @click="clearSearch" v-if="search">清除搜尋</button>
+        <button class="primary-btn" @click="activePanel = 'drill'">切換口試模式</button>
       </div>
     </header>
 
-    <div class="flex flex-1 overflow-hidden">
-
-      <!-- Sidebar -->
-      <aside class="w-1/3 lg:w-1/4 glass-panel shadow-[4px_0_24px_rgba(0,0,0,0.1)] overflow-y-auto z-10 hidden md:flex flex-col text-white">
-        <div class="p-4 bg-black/10 border-b border-white/20 sticky top-0 font-bold text-white/95 text-sm flex items-center shadow-sm backdrop-blur-md">
-          <i class="fa-solid fa-list-ul mr-2 text-pink-300"></i> {{ ui.toc[lang] }}
+    <div class="layout">
+      <aside class="sidebar">
+        <div>
+          <h2>Report Navigator</h2>
+          <p>10 大章節、40+ 框架、案例與口試抽題。</p>
         </div>
-        <ul class="flex-1 py-2">
-          <li v-for="(topic, index) in topics" :key="index"
-              @click="activeTopic = index"
-              class="cursor-pointer transition-all duration-200 border-l-4 px-4 py-3.5 flex items-center border-b border-white/10 last:border-0"
-              :class="activeTopic === index ? 'bg-white/20 border-l-pink-400 text-white font-bold shadow-md backdrop-blur-sm' : 'border-l-transparent hover:bg-white/10 text-white/70 hover:text-white'">
-            <span class="inline-block w-6 text-center mr-2 text-sm" :class="activeTopic === index ? 'text-pink-300 drop-shadow-md' : 'text-white/50'">
-              {{ index + 1 }}.
+
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span>研讀進度</span>
+            <span>{{ progressPercent }}%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-bar" :style="{ width: progressPercent + '%' }"></div>
+          </div>
+        </div>
+
+        <div class="chapter-list">
+          <button
+            v-for="(chapter, index) in filteredChapters"
+            :key="chapter.id"
+            class="chapter-btn"
+            :class="{ active: activeChapter === index }"
+            @click="handleSelectChapter(index)"
+          >
+            <span class="chapter-index">{{ String(index + 1).padStart(2, '0') }}</span>
+            <span>
+              <p class="chapter-title">{{ chapter.title }}</p>
+              <p class="chapter-sub">{{ chapter.navHint }}</p>
             </span>
-            <span class="truncate">{{ topic.title[lang].split('、')[1] || topic.title[lang] }}</span>
-          </li>
-        </ul>
+          </button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat">
+            <p class="k">Chapters</p>
+            <p class="v">{{ filteredChapters.length }}</p>
+          </div>
+          <div class="stat">
+            <p class="k">Frameworks</p>
+            <p class="v">{{ frameworkCount }}</p>
+          </div>
+          <div class="stat">
+            <p class="k">Case Notes</p>
+            <p class="v">{{ caseCount }}</p>
+          </div>
+          <div class="stat">
+            <p class="k">Oral Drills</p>
+            <p class="v">{{ drillCount }}</p>
+          </div>
+        </div>
       </aside>
 
-      <!-- Main Content -->
-      <main class="w-full md:w-2/3 lg:w-3/4 p-4 md:p-8 overflow-y-auto relative scroll-smooth">
-        <!-- Mobile Topic Selector -->
-        <div class="md:hidden mb-4">
-          <select v-model="activeTopic" class="w-full p-3 rounded-xl bg-white/80 backdrop-blur-md font-bold text-slate-800 outline-none border border-white/50 shadow-sm">
-            <option v-for="(topic, index) in topics" :value="index" :key="index">
-              {{ index + 1 }}. {{ topic.title[lang].split('、')[1] || topic.title[lang] }}
+      <main class="content" v-if="currentChapter">
+        <section class="hero card rise">
+          <p class="eyebrow">Chapter {{ activeChapter + 1 }}</p>
+          <h3>{{ currentChapter.title }}</h3>
+          <p>{{ currentChapter.summary }}</p>
+          <div class="tag-row">
+            <span class="tag" v-for="tag in currentChapter.tags" :key="tag">{{ tag }}</span>
+          </div>
+        </section>
+
+        <section class="mobile-nav card">
+          <label>章節切換</label>
+          <select v-model.number="activeChapter" @change="handleSelectChapter(activeChapter)">
+            <option
+              v-for="(chapter, index) in filteredChapters"
+              :key="chapter.id"
+              :value="index"
+            >
+              {{ index + 1 }}. {{ chapter.title }}
             </option>
           </select>
-        </div>
+        </section>
+
+        <section class="panel-switch card">
+          <button
+            v-for="panel in panels"
+            :key="panel.id"
+            class="panel-btn"
+            :class="{ active: activePanel === panel.id }"
+            @click="activePanel = panel.id"
+          >
+            {{ panel.label }}
+          </button>
+        </section>
 
         <transition name="fade" mode="out-in">
-          <div :key="activeTopic" class="max-w-4xl mx-auto pb-12">
-
-            <div class="mb-8 border-b border-white/30 pb-6">
-              <span class="text-pink-700 font-extrabold tracking-wider text-xs bg-white/90 px-3 py-1.5 rounded-full uppercase shadow-lg inline-block mb-3">
-                Chapter {{ activeTopic + 1 }}
-              </span>
-              <h2 class="text-3xl font-extrabold text-white tracking-tight drop-shadow-lg leading-snug">{{ topics[activeTopic].title[lang] }}</h2>
-              <p class="text-white/90 mt-3 text-[15px] leading-relaxed border-l-4 border-pink-400 pl-4 drop-shadow-md font-medium">
-                {{ topics[activeTopic].summary[lang] }}
-              </p>
+          <section v-if="activePanel === 'deep'" key="deep" class="content-card card">
+            <h3 class="section-title">核心論點與策略含義</h3>
+            <p class="section-desc">這一頁把章節的長篇內容壓縮成可直接進口試回答的結構：觀點、機制、策略影響。</p>
+            <ul class="bullet-list">
+              <li v-for="point in currentChapter.deepPoints" :key="point">{{ point }}</li>
+            </ul>
+            <div class="insight-grid">
+              <article class="mini-card" v-for="insight in currentChapter.insights" :key="insight.title">
+                <h4>{{ insight.title }}</h4>
+                <p>{{ insight.detail }}</p>
+              </article>
             </div>
+          </section>
 
-            <div class="grid grid-cols-1 gap-8">
-              <div v-for="(item, idx) in topics[activeTopic].items" :key="idx"
-                   class="glass-card rounded-2xl shadow-xl border border-white/60 overflow-hidden hover:shadow-2xl transition-all duration-300 flex flex-col group">
+          <section v-else-if="activePanel === 'framework'" key="framework" class="content-card card">
+            <h3 class="section-title">框架地圖</h3>
+            <p class="section-desc">每個框架都提供「定義 + 何時使用 + 管理意義」，可直接拿來寫答案骨架。</p>
+            <div class="framework-grid">
+              <article class="mini-card" v-for="item in currentChapter.frameworks" :key="item.name">
+                <h4>{{ item.name }}</h4>
+                <p>{{ item.detail }}</p>
+              </article>
+            </div>
+          </section>
 
-                <!-- Card Title -->
-                <div class="bg-slate-50/80 border-b border-slate-200 px-5 py-4 flex items-center justify-between relative overflow-hidden backdrop-blur-md">
-                  <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-pink-500 to-orange-400 opacity-80"></div>
-                  <h3 class="text-xl font-extrabold text-slate-800 flex items-center ml-2">
-                    {{ item.name[lang] }}
-                  </h3>
-                </div>
+          <section v-else-if="activePanel === 'case'" key="case" class="content-card card">
+            <h3 class="section-title">實戰案例與可遷移洞察</h3>
+            <p class="section-desc">不是背故事，而是把案例抽象成可複製的管理動作與風險判斷。</p>
+            <div class="case-grid">
+              <article class="mini-card" v-for="item in currentChapter.cases" :key="item.name">
+                <h4>{{ item.name }}</h4>
+                <p>{{ item.detail }}</p>
+                <span class="pill success">Takeaway：{{ item.takeaway }}</span>
+              </article>
+            </div>
+          </section>
 
-                <!-- Interactive Tabs Buttons -->
-                <div class="flex flex-wrap border-b border-slate-100 bg-white">
-                  <button v-for="tab in tabs" :key="tab.id" @click="setTab(idx, tab.id)"
-                          class="flex-1 py-3 text-sm font-bold transition-colors border-b-2 flex items-center justify-center space-x-2"
-                          :class="getTab(idx) === tab.id ? 'border-pink-500 text-pink-600 bg-pink-50/30' : 'border-transparent text-slate-400 hover:text-slate-600 hover:bg-slate-50'">
-                    <i :class="tab.icon"></i> <span class="hidden sm:inline">{{ tab.label[lang] }}</span>
+          <section v-else key="drill" class="content-card card">
+            <h3 class="section-title">口試演練模式</h3>
+            <p class="section-desc">先抽題，再用「高分答題骨架」展開回答，最後避免常見失分點。</p>
+            <div class="drill-grid">
+              <article class="drill-card">
+                <h4>隨機抽題</h4>
+                <div class="question-box">{{ currentQuestion || '按下「抽下一題」開始，系統會從本章題庫隨機出題。' }}</div>
+                <div class="drill-actions">
+                  <button class="primary-btn" @click="drawQuestion">抽下一題</button>
+                  <button class="ghost-btn" :disabled="!currentQuestion" @click="showAnswer = !showAnswer">
+                    {{ showAnswer ? '隱藏答題框架' : '顯示答題框架' }}
                   </button>
                 </div>
+                <div v-if="showAnswer" class="pill warning">建議答題流程：先定義，再分析機制，再用案例驗證，最後收斂管理建議。</div>
+              </article>
 
-                <!-- Tab Content Area -->
-                <div class="p-6 md:p-8 flex-1 flex flex-col bg-white/80 min-h-[250px]">
-                  <transition name="tab-fade" mode="out-in">
-
-                    <!-- Tab 1: Theory -->
-                    <div v-if="getTab(idx) === 'theory'" :key="'theory'">
-                      <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-4 flex items-center">
-                        <i class="fa-solid fa-book-journal-whills mr-2 text-indigo-400"></i> {{ ui.tabTheory[lang] }}
-                      </span>
-                      <div class="rich-content text-slate-700 text-[15px] leading-relaxed" v-html="item.desc[lang]"></div>
-                    </div>
-
-                    <!-- Tab 2: ELI5 (Beginner) -->
-                    <div v-else-if="getTab(idx) === 'eli5'" :key="'eli5'" class="flex flex-col h-full justify-center items-center text-center px-4">
-                      <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-4 shadow-inner">
-                        <i class="fa-solid fa-face-smile-beam text-3xl text-orange-500"></i>
-                      </div>
-                      <h4 class="font-bold text-lg text-slate-800 mb-2">{{ ui.eli5Title[lang] }}</h4>
-                      <p class="text-slate-600 text-base md:text-lg leading-relaxed font-medium bg-orange-50/50 p-6 rounded-2xl border border-orange-100">
-                        {{ item.eli5[lang] }}
-                      </p>
-                    </div>
-
-                    <!-- Tab 3: Case Study -->
-                    <div v-else-if="getTab(idx) === 'case'" :key="'case'">
-                       <span class="text-xs font-bold text-orange-500 uppercase tracking-widest block mb-4 flex items-center">
-                        <i class="fa-solid fa-lightbulb mr-2 text-yellow-500"></i> {{ ui.tabCase[lang] }}
-                      </span>
-                      <div class="bg-gradient-to-br from-orange-50 to-pink-50 rounded-xl p-6 border border-orange-100/50 shadow-inner">
-                        <div class="rich-content text-[15px] text-orange-950/90 leading-relaxed font-medium" v-html="item.case[lang]"></div>
-                      </div>
-                    </div>
-
-                    <!-- Tab 4: Quiz -->
-                    <div v-else-if="getTab(idx) === 'quiz'" :key="'quiz'">
-                      <span class="text-xs font-bold text-pink-500 uppercase tracking-widest block mb-4 flex items-center">
-                        <i class="fa-solid fa-gamepad mr-2 text-pink-400"></i> {{ ui.tabQuiz[lang] }}
-                      </span>
-                      <div class="mb-4">
-                        <h4 class="font-bold text-slate-800 text-lg mb-4">{{ item.quiz.q[lang] }}</h4>
-                        <div class="space-y-3">
-                          <label v-for="(opt, oIdx) in item.quiz.options" :key="oIdx"
-                                 class="flex items-center p-4 rounded-xl border-2 cursor-pointer transition-all hover:bg-slate-50"
-                                 :class="getQuizState(idx).selected === oIdx ? 'border-pink-400 bg-pink-50/30' : 'border-slate-100 bg-white'">
-                            <input type="radio" :name="'quiz-'+idx" :value="oIdx" v-model="getQuizState(idx).selected" class="w-4 h-4 text-pink-500 focus:ring-pink-500 border-gray-300">
-                            <span class="ml-3 text-slate-700 font-medium">{{ opt.text[lang] }}</span>
-                          </label>
-                        </div>
-                      </div>
-
-                      <div class="mt-6">
-                        <button v-if="getQuizState(idx).selected !== null && !getQuizState(idx).submitted"
-                                @click="submitQuiz(idx)"
-                                class="bg-gradient-to-r from-pink-500 to-orange-400 text-white font-bold py-2.5 px-6 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
-                          {{ ui.checkAnswer[lang] }}
-                        </button>
-
-                        <div v-if="getQuizState(idx).submitted" class="p-5 rounded-xl border animate-[fade-in_0.3s_ease-out]"
-                             :class="getQuizState(idx).isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'">
-                          <h5 class="font-bold mb-1 flex items-center" :class="getQuizState(idx).isCorrect ? 'text-green-700' : 'text-red-700'">
-                            <i class="mr-2 fa-solid" :class="getQuizState(idx).isCorrect ? 'fa-circle-check' : 'fa-circle-xmark'"></i>
-                            {{ getQuizState(idx).isCorrect ? ui.correct[lang] : ui.incorrect[lang] }}
-                          </h5>
-                          <p class="text-sm font-medium" :class="getQuizState(idx).isCorrect ? 'text-green-800' : 'text-red-800'">
-                            {{ item.quiz.explanation[lang] }}
-                          </p>
-                          <button v-if="!getQuizState(idx).isCorrect" @click="retryQuiz(idx)" class="mt-3 text-sm text-red-600 underline font-bold hover:text-red-800">
-                            {{ ui.retry[lang] }}
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                  </transition>
-                </div>
-
-              </div>
+              <article class="drill-card">
+                <h4>高分答題骨架</h4>
+                <ol class="drill-list">
+                  <li v-for="step in currentChapter.drill.answerFramework" :key="step">{{ step }}</li>
+                </ol>
+                <h4 style="margin-top: 14px;">常見失分點</h4>
+                <ul class="drill-list">
+                  <li v-for="risk in currentChapter.drill.pitfalls" :key="risk">{{ risk }}</li>
+                </ul>
+              </article>
             </div>
-
-          </div>
+          </section>
         </transition>
+      </main>
+
+      <main class="content" v-else>
+        <section class="empty-state card">
+          <h3>找不到符合關鍵字的章節</h3>
+          <p>你可以清除搜尋，或改用模型名稱（如 PESTEL、VRIO、CAGE）進行查找。</p>
+          <button class="primary-btn" style="margin-top: 12px;" @click="clearSearch">清除搜尋</button>
+        </section>
       </main>
     </div>
   </div>
 
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <script>
     const { createApp } = Vue;
 
     createApp({
       data() {
         return {
-          lang: 'zh', // 'zh' or 'en'
-          activeTopic: 0,
-          tabStates: {}, // Stores active tab per item e.g. '0-0': 'theory'
-          quizStates: {}, // Stores quiz state per item
-          tabs: [
-            { id: 'theory', icon: 'fa-solid fa-book-open', label: { zh: '學術理論', en: 'Theory' } },
-            { id: 'eli5', icon: 'fa-solid fa-child-reaching', label: { zh: '秒懂白話文', en: 'ELI5 (Simple)' } },
-            { id: 'case', icon: 'fa-solid fa-building', label: { zh: '實務個案', en: 'Case Study' } },
-            { id: 'quiz', icon: 'fa-solid fa-brain', label: { zh: '隨堂測驗', en: 'Quick Quiz' } }
+          search: "",
+          activeChapter: 0,
+          activePanel: "deep",
+          currentQuestion: "",
+          showAnswer: false,
+          panels: [
+            { id: "deep", label: "深度解析" },
+            { id: "framework", label: "框架地圖" },
+            { id: "case", label: "案例拆解" },
+            { id: "drill", label: "口試演練" }
           ],
-          ui: {
-            appTitle: { zh: '商業組織與策略', en: 'Business Strategy & Org' },
-            appSub: { zh: '深度互動式準備神器', en: 'Interactive Prep Tool' },
-            interactive: { zh: '含白話文與隨堂測驗', en: 'Includes ELI5 & Quizzes' },
-            toc: { zh: '核心主題目錄', en: 'Table of Contents' },
-            tabTheory: { zh: '理論架構', en: 'Theoretical Framework' },
-            tabCase: { zh: '應用個案', en: 'Applied Case Study' },
-            tabQuiz: { zh: '牛刀小試', en: 'Test Your Knowledge' },
-            eli5Title: { zh: '如果向5歲小孩解釋...', en: 'Explain Like I\'m 5...' },
-            checkAnswer: { zh: '確認答案', en: 'Check Answer' },
-            correct: { zh: '完全正確！太厲害了 🎉', en: 'Spot on! Great job 🎉' },
-            incorrect: { zh: '觀念有點偏掉囉 🤔', en: 'Not quite right 🤔' },
-            retry: { zh: '再試一次', en: 'Try Again' }
-          },
-          topics: [
+          chapters: [
             {
-              title: {
-                zh: "一、商業基礎與經濟系統",
-                en: "1. Business Foundations & Systems"
-              },
-              summary: {
-                zh: "探討企業如何作為一個系統運作，生產要素的配置，以及戰略資源分配。",
-                en: "Explores how a business operates as a system, resource allocation, and strategic planning."
-              },
-              items: [
+              id: "c1",
+              title: "一、商業基礎與經濟系統",
+              navHint: "Systems View、稀缺性、三個地平線",
+              summary: "企業不是單點流程，而是嵌在經濟系統裡的動態網路。你要同時看資源輸入、價值轉換、反饋修正，以及不同經濟制度下的資源分配邏輯。",
+              tags: ["Systems View", "Scarcity", "Opportunity Cost", "Three Horizons"],
+              deepPoints: [
+                "系統性觀點把企業拆成輸入、轉換、輸出、反饋四個環節，管理焦點不在單一部門效率，而在跨環節協同。",
+                "生產要素已由土地、勞動、資本，擴展為知識與創業精神；後兩者決定了資源轉化速度與創新率。",
+                "經濟系統差異本質上是資源分配權力分配：市場主導、國家調控或中央計畫，對創新誘因影響巨大。",
+                "Three Horizons 的核心不是時間先後，而是資源組合平衡：現金流防守、成長引擎、未來選項同時推進。"
+              ],
+              insights: [
                 {
-                  name: { zh: "系統性觀點 (Systems View)", en: "The Systems View of Business" },
-                  desc: {
-                    zh: "<p>將企業視為一個由多個相互依賴、持續互動的子系統所組成的有機整體，強調輸入 (Inputs)、轉換過程 (Processes)、輸出 (Outputs) 以及反饋迴路 (Feedback loop) 之間的動態平衡。</p>",
-                    en: "<p>Views the business as an organic whole made of interdependent subsystems. Emphasizes the dynamic balance between Inputs, Processes, Outputs, and Feedback loops.</p>"
-                  },
-                  eli5: {
-                    zh: "就像開一間手搖飲店！茶葉和水是「輸入」，搖飲料是「過程」，珍珠奶茶是「輸出」。客人說太甜（回饋），你下次就少放點糖（動態修正）。",
-                    en: "Like running a lemonade stand! Lemons and water are 'Inputs', mixing is the 'Process', and lemonade is the 'Output'. If customers say it's too sour (Feedback), you add more sugar next time."
-                  },
-                  case: {
-                    zh: "<strong>傳統 vs. 現代：</strong><br>傳統企業的反饋僅是監控品質。現代知識經濟中，企業透過巨量資料即時理解並預測客戶需求來動態調整整個價值鏈。",
-                    en: "<strong>Traditional vs. Modern:</strong><br>Traditional firms only monitor product quality. Modern firms use Big Data to predict customer needs and dynamically adjust their entire value chain."
-                  },
-                  quiz: {
-                    q: { zh: "在系統觀點中，顧客填寫滿意度問卷屬於哪個環節？", en: "In the systems view, a customer filling out a satisfaction survey belongs to which part?" },
-                    options: [
-                      { text: { zh: "輸入 (Input)", en: "Input" }, isCorrect: false },
-                      { text: { zh: "轉換過程 (Process)", en: "Process" }, isCorrect: false },
-                      { text: { zh: "反饋迴路 (Feedback loop)", en: "Feedback loop" }, isCorrect: true }
-                    ],
-                    explanation: {
-                      zh: "問卷是外界對「輸出結果」的反應，用來幫助企業修正未來的輸入與過程，這就是標準的「反饋迴路」。",
-                      en: "A survey is a reaction to the 'Output', used to fix future inputs and processes. This is the definition of a Feedback loop."
-                    }
-                  }
+                  title: "管理含義",
+                  detail: "若企業只優化 H1，短期報表好看但會被 H3 破壞者吃掉；若只追 H3，會失去現金流生存基礎。"
                 },
                 {
-                  name: { zh: "三個地平線模型 (Three Horizons)", en: "Three Horizon Model" },
-                  desc: {
-                    zh: "<p>McKinsey 提出的戰略框架：</p><ul><li><strong>H1 (保護核心)：</strong>目前的利潤與現金流來源。</li><li><strong>H2 (新興業務)：</strong>延伸現有核心能力，有望成為中期利潤引擎。</li><li><strong>H3 (顛覆未來)：</strong>探索破壞性技術，創造全新產業。</li></ul>",
-                    en: "<p>McKinsey's strategic framework:</p><ul><li><strong>H1 (Core):</strong> Current cash cow and profit source.</li><li><strong>H2 (Emerging):</strong> Extending core capabilities, future mid-term profit engine.</li><li><strong>H3 (Disruptive):</strong> Exploring disruptive tech to create entirely new industries.</li></ul>"
-                  },
-                  eli5: {
-                    zh: "想像你在玩遊戲：H1是每天幫你賺金幣的「主線任務」；H2是剛解鎖、正在升級的「副本」；H3是你正在秘密開發的「外掛級新武器」。三個都要顧，不然未來會輸！",
-                    en: "Imagine playing a game: H1 is your daily quest making you gold; H2 is a new dungeon you're slowly beating; H3 is researching a secret overpowered weapon for the endgame."
-                  },
-                  case: {
-                    zh: "<strong>Google (Alphabet)：</strong><br>搜尋引擎為現金牛(H1)，Google Cloud為新興業務(H2)，Waymo自動駕駛為顛覆未來(H3)。",
-                    en: "<strong>Google (Alphabet):</strong><br>Search engine is the cash cow (H1), Google Cloud is the emerging business (H2), and Waymo self-driving is the disruptive future (H3)."
-                  },
-                  quiz: {
-                    q: { zh: "對於一間傳統汽車廠，研發「全自動駕駛飛行車」最可能屬於哪一個地平線？", en: "For a traditional car maker, developing a 'fully autonomous flying car' likely belongs to which horizon?" },
-                    options: [
-                      { text: { zh: "H1 保護核心", en: "H1 Core" }, isCorrect: false },
-                      { text: { zh: "H3 顛覆未來", en: "H3 Disruptive" }, isCorrect: true }
-                    ],
-                    explanation: {
-                      zh: "飛行車屬於尚未成熟、具備破壞性且能創造全新產業的技術，因此屬於 H3。",
-                      en: "A flying car is immature, highly disruptive, and creates a new industry, making it an H3 initiative."
-                    }
-                  }
+                  title: "口試重點",
+                  detail: "先定義系統觀點，再用反饋機制解釋『為何企業能在不確定環境下持續校正策略』。"
                 }
-              ]
+              ],
+              frameworks: [
+                {
+                  name: "系統性觀點 (Inputs-Process-Outputs-Feedback)",
+                  detail: "用於診斷組織斷點。若輸出品質波動，不能只怪生產端，需回溯輸入品質與反饋速度。"
+                },
+                {
+                  name: "生產要素升級版",
+                  detail: "把知識與創業精神納入要素清單，才能解釋同樣資本下不同企業的績效差距。"
+                },
+                {
+                  name: "經濟系統比較",
+                  detail: "資本主義強誘因、社會主義重公平、計畫經濟重控制；三者差異直接影響創新效率。"
+                },
+                {
+                  name: "Three Horizons",
+                  detail: "H1 保現金流、H2 建中期成長、H3 造未來選項；重點是資源配置與治理節奏。"
+                }
+              ],
+              cases: [
+                {
+                  name: "傳統烘焙到知識型企業",
+                  detail: "傳統反饋多為品質檢查；知識型企業把顧客行為數據即時回饋到產品與供應鏈，形成高速迭代。",
+                  takeaway: "反饋速度就是競爭速度"
+                },
+                {
+                  name: "Alphabet 三地平線組合",
+                  detail: "搜尋引擎屬 H1 提供現金流，Cloud 屬 H2 放大成長，Waymo/DeepMind 屬 H3 建立長期選擇權。",
+                  takeaway: "資本配置必須跨地平線"
+                }
+              ],
+              drill: {
+                questions: [
+                  "為什麼系統性觀點比部門績效觀點更適合解釋企業在不確定環境下的表現？",
+                  "若你是 CEO，如何在 H1、H2、H3 之間分配預算並避免內耗？",
+                  "知識與創業精神為何被視為新時代最關鍵生產要素？",
+                  "請比較資本主義、社會主義、計畫經濟對創新激勵的差異。"
+                ],
+                answerFramework: [
+                  "先定義核心模型（系統觀點或 Three Horizons）。",
+                  "指出變數間因果機制（輸入/反饋/誘因/資源分配）。",
+                  "帶一個企業案例驗證模型可用性。",
+                  "補上管理建議與衡量指標（成長率、現金流、迭代週期）。"
+                ],
+                pitfalls: [
+                  "只背名詞，沒有說明模型如何影響管理決策。",
+                  "把 H1/H2/H3 當線性時間順序，而非同時進行的組合管理。",
+                  "忽略反饋迴路，導致分析像單向流程圖。"
+                ]
+              }
             },
             {
-              title: { zh: "二、創業精神與新創思維", en: "2. Entrepreneurship & Start-ups" },
-              summary: { zh: "了解創業家如何思考，以及在高度不確定性中如何行動。", en: "Understand how entrepreneurs think and act under extreme uncertainty." },
-              items: [
+              id: "c2",
+              title: "二、創業精神與新創思維",
+              navHint: "新創類型、Effectuation、機會開發",
+              summary: "創業不是開公司而已，而是把不確定性變成可控實驗。核心在於機會識別、資源拼接與快速開發。",
+              tags: ["Start-up Types", "Causation", "Effectuation", "Shane-Venkataraman"],
+              deepPoints: [
+                "新創可分為薪資替代型、生活方式型、可擴張創業型；這三種的融資策略與退出路徑完全不同。",
+                "因果邏輯適合可預測市場；效用邏輯適合高不確定市場，重點是用現有手段創造可行路徑。",
+                "Effectuation 五原則把創業從『預測未來』改成『控制可控變數』。",
+                "AI 普及降低資訊不對稱後，創業優勢逐漸從機會發現，移向資源整合與執行速度。"
+              ],
+              insights: [
                 {
-                  name: { zh: "因果邏輯 vs. 效用邏輯", en: "Causation vs. Effectuation" },
-                  desc: {
-                    zh: "<p><strong>因果(Causation)：</strong>給定目標找資源(預測未來)。<br><strong>效用(Effectuation)：</strong>從現有手段出發創造未來(控制未來)。包含原則：手中鳥(現有資源)、可負擔虧損、瘋狂拼布(共創)、檸檬水(擁抱意外)。</p>",
-                    en: "<p><strong>Causation:</strong> Pick a goal, find resources to reach it (Prediction).<br><strong>Effectuation:</strong> Start with what you have, create the future (Control). Principles: Bird in Hand, Affordable Loss, Crazy Quilt (Co-create), Lemonade (Embrace surprises).</p>"
-                  },
-                  eli5: {
-                    zh: "【因果邏輯】是先決定今晚要吃「法式燉牛肉」，然後去超市買缺的食材。【效用邏輯】是打開冰箱，看到有雞蛋和剩飯，就決定發明一道「創意黃金炒飯」。創業家通常是後者！",
-                    en: "[Causation] is deciding to make 'French Stew', then shopping for missing items. [Effectuation] is opening the fridge, seeing eggs and leftover rice, and creating 'Golden Fried Rice'. Entrepreneurs do the latter!"
-                  },
-                  case: {
-                    zh: "頂尖連續創業家通常不盲目寫完美的商業計畫書預測 ROI，而是利用自己認識的人(手中鳥)與願意一起嘗試的夥伴(瘋狂拼布)直接採取行動。",
-                    en: "Expert serial entrepreneurs don't write perfect business plans to predict ROI. They take action using who they know (Bird in hand) and partners willing to try (Crazy quilt)."
-                  },
-                  quiz: {
-                    q: { zh: "創業者設定自己「最多只賠掉存款的20%就停損」，這符合哪一項效用邏輯原則？", en: "An entrepreneur decides 'I will stop if I lose 20% of my savings'. Which principle is this?" },
-                    options: [
-                      { text: { zh: "檸檬水原則 (Lemonade)", en: "Lemonade principle" }, isCorrect: false },
-                      { text: { zh: "可負擔的虧損 (Affordable Loss)", en: "Affordable Loss" }, isCorrect: true }
-                    ],
-                    explanation: {
-                      zh: "這正是「可負擔的虧損」的核心：不計算預期能賺多少，而是設定自己能承受的最大損失並控制它。",
-                      en: "This is the core of 'Affordable Loss': not calculating potential upside, but limiting and controlling the maximum downside."
-                    }
-                  }
+                  title: "管理含義",
+                  detail: "創業團隊早期應把現金與時間用在可負擔損失的試驗，不該過早追求完美商業計畫。"
+                },
+                {
+                  title: "口試重點",
+                  detail: "回答時先區分 Causation 與 Effectuation，再說明五原則如何落地成行動。"
                 }
-              ]
+              ],
+              frameworks: [
+                {
+                  name: "新創三類型",
+                  detail: "薪資替代型追求穩定，生活方式型追求價值一致，創業型追求可擴張與高成長。"
+                },
+                {
+                  name: "Causation vs. Effectuation",
+                  detail: "前者從目標找手段，後者從手段創造目標；差異在不確定性處理方式。"
+                },
+                {
+                  name: "Effectuation 五原則",
+                  detail: "手中鳥、可負擔虧損、共創拼布、檸檬水、飛行員原則，構成創業者行動邏輯。"
+                },
+                {
+                  name: "Shane & Venkataraman 模型",
+                  detail: "機會識別、評估、開發；強調有利可圖機會與進取個體的交會。"
+                }
+              ],
+              cases: [
+                {
+                  name: "連續創業者的共創打法",
+                  detail: "先鎖定願意承諾的首批夥伴，再一起定義產品邊界，比閉門預測更快找到 PMF。",
+                  takeaway: "先控制可控，再擴大可預測"
+                },
+                {
+                  name: "AI 時代的新創競爭",
+                  detail: "市場資料普及讓資訊優勢變小，真正門檻轉向『模型落地能力 + 組織執行速度』。",
+                  takeaway: "執行力替代資訊壟斷"
+                }
+              ],
+              drill: {
+                questions: [
+                  "Effectuation 為何在高不確定環境比 Causation 更有效？",
+                  "可負擔虧損原則如何影響新創的財務決策？",
+                  "AI 普及後，創業競爭優勢為何從『發現機會』轉向『快速開發』？",
+                  "請比較三種新創類型在成長策略與退出策略上的差異。"
+                ],
+                answerFramework: [
+                  "先界定創業情境（高或低不確定）。",
+                  "再對照兩種邏輯的決策起點與行動差異。",
+                  "用一個具體創業案例對映原則。",
+                  "最後給出執行層建議（試驗節奏、資本配置、夥伴策略）。"
+                ],
+                pitfalls: [
+                  "把 Effectuation 誤解成『不用規劃』。",
+                  "忽略創業類型差異，所有案例都用同一套融資邏輯。",
+                  "只談機會發現，不談機會開發與價值占有。"
+                ]
+              }
             },
             {
-              title: { zh: "三、外部環境與產業分析", en: "3. External Environment & Industry" },
-              summary: { zh: "透過五力分析與生命週期，評估產業的吸引力與競爭激烈度。", en: "Evaluate industry attractiveness and rivalry via Five Forces and Life Cycles." },
-              items: [
+              id: "c3",
+              title: "三、外部環境與產業分析",
+              navHint: "PESTEL、五力、生命週期",
+              summary: "企業利潤不是只看內功，外部結構會決定天花板。分析要從宏觀趨勢一路收斂到產業結構。",
+              tags: ["PESTEL", "Supply-Demand", "Porter 5 Forces", "Industry Life Cycle"],
+              deepPoints: [
+                "PESTEL 讓管理者提早看到制度與技術位移，避免只看短期財報。",
+                "供需曲線位移代表機會重組：技術降本或偏好改變都會重畫市場均衡。",
+                "五力模型解釋的是結構性獲利，重點在『誰在抽走產業利潤』。",
+                "生命週期不是背景知識，而是競爭策略切換節點。"
+              ],
+              insights: [
                 {
-                  name: { zh: "波特五力分析 (Porter's 5 Forces)", en: "Porter's 5 Forces" },
-                  desc: {
-                    zh: "<ul><li><strong>現有競爭者：</strong>容易陷入價格戰。</li><li><strong>潛在進入者：</strong>取決於進入壁壘。</li><li><strong>替代品：</strong>為價格設定了上限。</li><li><strong>供應商能力：</strong>集中度高會榨取利潤。</li><li><strong>買方能力：</strong>買方強勢會迫使企業降價。</li></ul>",
-                    en: "<ul><li><strong>Rivalry:</strong> Can lead to price wars.</li><li><strong>New Entrants:</strong> Depends on entry barriers.</li><li><strong>Substitutes:</strong> Puts a ceiling on prices.</li><li><strong>Suppliers:</strong> High concentration extracts profit.</li><li><strong>Buyers:</strong> Strong buyers force price drops.</li></ul>"
-                  },
-                  eli5: {
-                    zh: "想像你在學校賣三明治。五力就是：1. 其他賣三明治的同學 (對手) 2. 隨時想加入賣三明治的人 (新進入) 3. 賣漢堡的同學 (替代品) 4. 賣麵包給你的老闆 (供應商) 5. 嫌貴不買的同學 (買方)。這五個越強，你越難賺錢！",
-                    en: "Imagine selling sandwiches at school. 1. Other sandwich sellers (Rivalry) 2. Kids who might start selling tomorrow (Entrants) 3. Burger sellers (Substitutes) 4. The bakery you buy bread from (Suppliers) 5. Picky kids complaining about price (Buyers). If these 5 are strong, you make no money!"
-                  },
-                  case: {
-                    zh: "<strong>全球航空產業：</strong>競爭激烈、顧客對票價敏感(買方強)、波音/空巴雙占(供應商強)、高鐵夾擊(替代品)，五力皆強導致產業長期處於低利潤。",
-                    en: "<strong>Global Airline Industry:</strong> Fierce rivalry, price-sensitive fliers (Strong buyers), Boeing/Airbus duopoly (Strong suppliers), high-speed rail (Substitutes). 5 strong forces = notoriously low profits."
-                  },
-                  quiz: {
-                    q: { zh: "如果一個產業有「極高的專利保護與動輒百億的設備投資」，這會影響哪一種力量？", en: "If an industry has 'strict patents and billions needed for equipment', which force does this impact?" },
-                    options: [
-                      { text: { zh: "增加買方議價能力", en: "Increases Buyer Power" }, isCorrect: false },
-                      { text: { zh: "降低潛在進入者威脅", en: "Reduces Threat of New Entrants" }, isCorrect: true }
-                    ],
-                    explanation: {
-                      zh: "極高的專利與資金需求是巨大的「進入壁壘」，能有效阻擋新競爭者進入市場。",
-                      en: "High patents and capital needs are massive 'Entry Barriers', effectively blocking new competitors from entering."
-                    }
-                  }
+                  title: "管理含義",
+                  detail: "成熟期產業要從增量擴張轉向效率、差異化與現金流管理，否則容易陷入價格戰。"
+                },
+                {
+                  title: "口試重點",
+                  detail: "回答五力時要帶『獲利機制』，例如供應商集中如何具體壓縮毛利。"
                 }
-              ]
+              ],
+              frameworks: [
+                {
+                  name: "PESTEL",
+                  detail: "從政治、經濟、社會、科技、環境、法律掃描外部驅動因子，定位風險與機會。"
+                },
+                {
+                  name: "供需分析",
+                  detail: "追蹤曲線位移而非只看價格變動，可判斷機會是短期波動還是結構改變。"
+                },
+                {
+                  name: "Porter 五力",
+                  detail: "競爭者、進入者、替代品、供應商、買方共同決定產業長期獲利空間。"
+                },
+                {
+                  name: "產業生命週期",
+                  detail: "導入、成長、洗牌、成熟、衰退各階段對定價、投資、整併策略要求不同。"
+                }
+              ],
+              cases: [
+                {
+                  name: "全球航空業的低利潤陷阱",
+                  detail: "買方價格敏感、供應商雙占、替代品增強、競爭激烈，五力同時擠壓利潤。",
+                  takeaway: "結構差，執行再好也有限"
+                },
+                {
+                  name: "串流媒體從成長到洗牌",
+                  detail: "初期靠模式創新吃紅利，成熟後轉向內容成本競賽與訂閱價格管理，逐步靠近傳統媒體邏輯。",
+                  takeaway: "成長紅利終會回歸結構競爭"
+                }
+              ],
+              drill: {
+                questions: [
+                  "為何五力模型能解釋產業平均獲利而不是單一公司短期表現？",
+                  "PESTEL 變數如何引發供需曲線位移？",
+                  "請用航空業說明五力皆強時企業策略空間為何受限。",
+                  "串流平台為何在成熟期開始引入廣告與調漲價格？"
+                ],
+                answerFramework: [
+                  "先界定分析層次（宏觀、產業、企業）。",
+                  "說明外部變數如何進入獲利公式（成本、價格、需求彈性）。",
+                  "使用一個產業案例展示完整鏈條。",
+                  "最後提出企業可採取的防禦與轉型策略。"
+                ],
+                pitfalls: [
+                  "把五力寫成名詞列表，沒有機制推論。",
+                  "把生命週期當固定時間表，忽略技術突變可能加速階段轉移。",
+                  "忽略替代品威脅只看同業競爭。"
+                ]
+              }
             },
             {
-              title: { zh: "四、內部資源與競爭優勢", en: "4. Internal Resources & Advantage" },
-              summary: { zh: "如何透過 VRIO 框架與策略權衡，建立對手偷不走的護城河。", en: "Building unstealable moats using the VRIO framework and strategic trade-offs." },
-              items: [
+              id: "c4",
+              title: "四、內部資源、能力與競爭優勢",
+              navHint: "Value Chain、VRIO、Trade-off",
+              summary: "外部分析告訴你去哪裡打，內部分析決定你憑什麼打贏。關鍵是把資源轉成不可輕易複製的能力組合。",
+              tags: ["Value Chain", "RBV", "VRIO", "Trade-offs"],
+              deepPoints: [
+                "價值鏈把利潤拆回活動層，便於找成本槓桿與差異化來源。",
+                "RBV 主張持續優勢源於異質資源；VRIO 提供可操作的篩選標準。",
+                "SWOT 只是盤點，必須透過 TOWS 交叉配對才能形成策略動作。",
+                "策略本質是取捨，Jidoka 證明短期效率可被有意識地犧牲來換長期品質。"
+              ],
+              insights: [
                 {
-                  name: { zh: "資源基礎觀點 (VRIO)", en: "Resource-Based View (VRIO)" },
-                  desc: {
-                    zh: "<p>評估資源是否具備：</p><ul><li><strong>V (Value) 價值：</strong>能抵禦威脅。</li><li><strong>R (Rarity) 稀缺性：</strong>極少數人擁有。</li><li><strong>I (Inimitability) 難以模仿：</strong>複製成本極高。</li><li><strong>O (Organization) 組織：</strong>公司有能力將其變現。</li></ul>",
-                    en: "<p>Evaluates if a resource is:</p><ul><li><strong>V (Valuable):</strong> Defends against threats.</li><li><strong>R (Rare):</strong> Controlled by few.</li><li><strong>I (Inimitable):</strong> Hard/costly to copy.</li><li><strong>O (Organized):</strong> Firm can exploit it.</li></ul>"
-                  },
-                  eli5: {
-                    zh: "VRIO 就像鑑定一把寶劍：V=鋒利能砍怪嗎？ R=全伺服器只有你有嗎？ I=別的鐵匠造得出來嗎？ O=你的等級夠高能裝備它嗎？ 四個都具備，你就是全服霸主！",
-                    en: "VRIO is like checking a sword in a game: V=Does it deal high damage? R=Is it a rare drop? I=Can other blacksmiths craft it? O=Is your level high enough to equip it? If yes to all, you dominate the server!"
-                  },
-                  case: {
-                    zh: "<strong>Starbucks：</strong>咖啡豆不稀缺(僅達競爭平價)。但「品牌形象與第三空間體驗」難以短期複製，符合VRIO，成為持續競爭優勢。",
-                    en: "<strong>Starbucks:</strong> Coffee beans aren't rare (just competitive parity). But its 'Brand & Third Place experience' is hard to copy quickly, meeting VRIO and creating sustained advantage."
-                  },
-                  quiz: {
-                    q: { zh: "某公司花錢買了市面上最頂級的電腦設備。這項資源最缺乏 VRIO 中的哪一項？", en: "A company bought the most expensive computers on the market. Which VRIO element is this missing most?" },
-                    options: [
-                      { text: { zh: "V 價值", en: "V - Valuable" }, isCorrect: false },
-                      { text: { zh: "I 難以模仿性", en: "I - Inimitable" }, isCorrect: true }
-                    ],
-                    explanation: {
-                      zh: "只要對手有錢，隨時可以去買一模一樣的電腦，因此非常容易被模仿 (缺乏 I)。",
-                      en: "As long as competitors have money, they can buy the exact same computers. It is extremely easy to copy (Lacks I)."
-                    }
-                  }
+                  title: "管理含義",
+                  detail: "若資源僅具價值但不稀缺或可模仿，最多是競爭平價，不能期待持續超額報酬。"
+                },
+                {
+                  title: "口試重點",
+                  detail: "回答 VRIO 時務必講到 O（組織性），很多答案只停在 V、R、I。"
                 }
-              ]
+              ],
+              frameworks: [
+                {
+                  name: "價值鏈 (Primary + Support)",
+                  detail: "從進料、營運、出貨到服務，搭配基礎設施與技術開發，找出利潤來源。"
+                },
+                {
+                  name: "RBV + VRIO",
+                  detail: "先辨識關鍵資源，再用 VRIO 判定是劣勢、平價、暫時優勢或持續優勢。"
+                },
+                {
+                  name: "SWOT/TOWS",
+                  detail: "SO、WO、ST、WT 四象限把分析結果轉成擴張、防禦、修補或收縮策略。"
+                },
+                {
+                  name: "策略權衡 (Trade-offs)",
+                  detail: "選擇做什麼等於選擇不做什麼；沒有取捨就沒有清晰定位。"
+                }
+              ],
+              cases: [
+                {
+                  name: "IKEA 與 Zara 的價值鏈設計",
+                  detail: "IKEA 透過平板包裝壓低運輸與倉儲，Zara 透過高頻補貨提升反應速度並壓低庫存風險。",
+                  takeaway: "價值鏈設計即策略"
+                },
+                {
+                  name: "Starbucks VRIO + Toyota Jidoka",
+                  detail: "星巴克品牌體驗符合 VRIO；豐田透過停線機制犧牲短期產量，換取長期品質優勢。",
+                  takeaway: "優勢來自難模仿流程與文化"
+                }
+              ],
+              drill: {
+                questions: [
+                  "為何 VRIO 中的 O 維度經常是企業落敗關鍵？",
+                  "IKEA 與 Zara 分別透過哪個價值鏈環節建立優勢？",
+                  "請說明策略權衡與 Porter Generic Strategy 的關係。",
+                  "Jidoka 為何是『犧牲短期效率、換長期競爭力』的典型？"
+                ],
+                answerFramework: [
+                  "先界定分析工具（價值鏈或 VRIO）。",
+                  "再描述資源如何變成能力與績效。",
+                  "對應一個實務案例說明可模仿性差異。",
+                  "最後給企業執行建議（流程、治理、人才）。"
+                ],
+                pitfalls: [
+                  "把資源與能力混為一談。",
+                  "忽略組織制度與文化對能力變現的影響。",
+                  "提到差異化卻沒有說成本或取捨代價。"
+                ]
+              }
+            },
+            {
+              id: "c5",
+              title: "五、企業組合策略與成長",
+              navHint: "Bowman、Ansoff、BCG、Parenting",
+              summary: "多事業體管理的核心是資本配置。你需要同時判斷市場位置、成長路徑與母公司介入價值。",
+              tags: ["Bowman Clock", "Ansoff", "BCG Matrix", "Parenting Matrix"],
+              deepPoints: [
+                "Bowman 策略時鐘把價格與感知價值結合，幫助企業找可持續定位。",
+                "Ansoff 矩陣揭示四種成長路徑，風險由市場滲透到多角化逐步升高。",
+                "BCG 讓資金流向可視化：金牛供血、明星吸金、問題兒童決策、落水狗退出。",
+                "Parenting Matrix 進一步問『母公司是否真的能加值』，避免價值陷阱。"
+              ],
+              insights: [
+                {
+                  title: "管理含義",
+                  detail: "不是每個高成長市場都該投資，若母公司能力不匹配，投資反而會毀損價值。"
+                },
+                {
+                  title: "口試重點",
+                  detail: "回答組合策略時要同時提『市場吸引力』與『母公司加值能力』兩軸。"
+                }
+              ],
+              frameworks: [
+                {
+                  name: "Bowman 策略時鐘",
+                  detail: "用價格與感知價值描述競爭定位，避免高價低值的策略死區。"
+                },
+                {
+                  name: "Ansoff 矩陣",
+                  detail: "現有/新產品 × 現有/新市場，形成滲透、開發、多角化四種成長路徑。"
+                },
+                {
+                  name: "BCG 矩陣",
+                  detail: "相對市佔率與市場成長率決定事業單位的資本角色。"
+                },
+                {
+                  name: "Parenting Matrix",
+                  detail: "以契合度與加值機會判斷母公司應深度介入、輕觸監督或退出。"
+                }
+              ],
+              cases: [
+                {
+                  name: "Coca-Cola 的 Ansoff 實作",
+                  detail: "透過口味延伸做產品開發、透過全球分銷做市場開發，並以運動飲料做多角化。",
+                  takeaway: "成長路徑要配合資源能力"
+                },
+                {
+                  name: "Samsung 的 BCG 組合",
+                  detail: "半導體與手機吸收大量投資，成熟家電提供穩定現金流，形成組合韌性。",
+                  takeaway: "資本配置比單點爆發更關鍵"
+                }
+              ],
+              drill: {
+                questions: [
+                  "BCG 與 Parenting Matrix 的差異與互補性是什麼？",
+                  "什麼情況下企業應該選擇多角化而非市場滲透？",
+                  "Bowman 時鐘中的混合策略如何形成破壞性優勢？",
+                  "如何判斷一個事業是 Heartland 還是 Value Trap？"
+                ],
+                answerFramework: [
+                  "先界定矩陣的判斷軸與目的。",
+                  "說明該工具如何影響資本配置。",
+                  "搭配一個企業組合案例驗證。",
+                  "最後提出進退場決策與治理建議。"
+                ],
+                pitfalls: [
+                  "把所有高成長業務都當明星，忽略市佔率與競爭位置。",
+                  "只看市場，不看母公司能力匹配。",
+                  "沒有提到退出策略與資源回收。"
+                ]
+              }
+            },
+            {
+              id: "c6",
+              title: "六、行銷與定位",
+              navHint: "Need-Want-Demand、STP、USP",
+              summary: "行銷不是推銷，而是把人性需求轉成可支付需求，再透過定位與組合持續交付價值。",
+              tags: ["Need-Want-Demand", "STP", "4Ps", "USP"],
+              deepPoints: [
+                "Need 是人性缺口，Want 是文化化偏好，Demand 是有支付能力的想要。",
+                "STP 決定你服務誰與在誰心中成為什麼；沒有定位，4Ps 只會變成戰術堆砌。",
+                "差異化可來自產品、服務、人員、形象，不只來自規格。",
+                "高價策略可成立的前提是顧客感知價值持續高於總成本。"
+              ],
+              insights: [
+                {
+                  title: "管理含義",
+                  detail: "行銷團隊應把資源集中在高價值分眾，而非平均撒網。"
+                },
+                {
+                  title: "口試重點",
+                  detail: "答題時先講心理層次（Need/Want/Demand），再講 STP 與 4Ps 落地。"
+                }
+              ],
+              frameworks: [
+                {
+                  name: "Need / Want / Demand / Value",
+                  detail: "四層概念串接顧客心理與購買行為，解釋行銷為何能創造可支付需求。"
+                },
+                {
+                  name: "STP",
+                  detail: "區隔、選擇、定位是策略主幹，確保品牌在目標客群心智中有獨特座標。"
+                },
+                {
+                  name: "4Ps",
+                  detail: "產品、價格、促銷、通路需服務同一個定位，不可互相抵銷。"
+                },
+                {
+                  name: "USP 與差異化",
+                  detail: "差異化可以在產品、服務、人員、品牌形象多個觸點同步建立。"
+                }
+              ],
+              cases: [
+                {
+                  name: "Disney 與 Build-A-Bear",
+                  detail: "兩者都抓住情感層需求，把體驗設計成高價值的品牌記憶，形成需求與溢價。",
+                  takeaway: "情感價值可轉為支付意願"
+                },
+                {
+                  name: "Finnair 與 Dangote",
+                  detail: "Finnair 走服務與形象差異化；Dangote 以產品、價格、通路、人員組合建立壁壘。",
+                  takeaway: "差異化是系統，不是口號"
+                }
+              ],
+              drill: {
+                questions: [
+                  "Need 與 Want 的差異為何會影響行銷策略？",
+                  "STP 與 4Ps 應該先後如何安排？",
+                  "如何判斷品牌差異化是真差異還是行銷包裝？",
+                  "請用案例說明服務差異化如何支持價格溢價。"
+                ],
+                answerFramework: [
+                  "先用顧客心理層次定義問題。",
+                  "再用 STP 指出目標客群與定位。",
+                  "接著對應 4Ps 的戰術設計。",
+                  "最後用價值與支付意願收斂成效。"
+                ],
+                pitfalls: [
+                  "把行銷等同廣告曝光。",
+                  "定位陳述與產品體驗不一致。",
+                  "忽略通路與服務對感知價值的影響。"
+                ]
+              }
+            },
+            {
+              id: "c7",
+              title: "七、創新與定價策略",
+              navHint: "創新者窘境、策略陳述、收益管理",
+              summary: "發明不等於創新，商業化能力才是價值轉換關鍵。價格策略則決定你如何把價值轉成現金流。",
+              tags: ["Invention vs Innovation", "Innovator's Dilemma", "Strategy Statement", "Yield Management"],
+              deepPoints: [
+                "創新是發明的商業化，關鍵不在技術本身，而在市場採用與商業模式設計。",
+                "創新者窘境指出：成熟企業常因守護既有高毛利而忽略早期破壞性技術。",
+                "策略陳述要一致：願景給方向、使命定範圍、價值觀定行為邊界。",
+                "收益管理適用於固定產能、低邊際成本、高易腐性的產業。"
+              ],
+              insights: [
+                {
+                  title: "管理含義",
+                  detail: "企業要建立雙軌治理：核心業務維持效率，新業務保留容錯，不然會被既有 KPI 綁死。"
+                },
+                {
+                  title: "口試重點",
+                  detail: "回答破壞式創新時要明確說明『為何看起來合理的決策，最終反而導致失敗』。"
+                }
+              ],
+              frameworks: [
+                {
+                  name: "創新 vs 發明",
+                  detail: "發明解決技術可行性，創新解決市場可行性與價值捕捉。"
+                },
+                {
+                  name: "Innovator's Dilemma",
+                  detail: "既有客戶與利潤結構會抑制對低端新技術投資，最終錯失轉型窗口。"
+                },
+                {
+                  name: "Strategy Statement",
+                  detail: "願景、使命、價值觀三位一體，確保組織行動一致且可持續。"
+                },
+                {
+                  name: "Yield Management",
+                  detail: "以需求預測與動態定價最大化單位產能收益，常見於航空與旅宿。"
+                }
+              ],
+              cases: [
+                {
+                  name: "Kodak 與 Blockbuster 失敗教訓",
+                  detail: "兩者都擁有前瞻線索，卻被既有商業模式綁住，錯失轉型時機。",
+                  takeaway: "既有成功可能是最大包袱"
+                },
+                {
+                  name: "easyJet 的收益管理",
+                  detail: "透過預訂曲線與艙位剩餘量動態調價，提高滿載率與單航班收益。",
+                  takeaway: "價格是即時管理系統"
+                }
+              ],
+              drill: {
+                questions: [
+                  "為何傾聽既有客戶有時會讓企業錯失破壞式創新？",
+                  "請比較 invention 與 innovation 在管理上的差別。",
+                  "收益管理成功需要哪些前提條件？",
+                  "如何設計兼顧核心獲利與破壞式探索的治理機制？"
+                ],
+                answerFramework: [
+                  "先定義概念與適用情境。",
+                  "再指出失敗的結構性原因（誘因、KPI、資源流程）。",
+                  "使用案例說明決策路徑。",
+                  "最後提出治理機制與監控指標。"
+                ],
+                pitfalls: [
+                  "把破壞式創新誤解為單純技術升級。",
+                  "收益管理只談價格，不談需求分群與產能限制。",
+                  "策略陳述與資本配置脫節。"
+                ]
+              }
+            },
+            {
+              id: "c8",
+              title: "八、組織設計、管理與變革",
+              navHint: "管理四功能、CVF、Kotter",
+              summary: "策略要落地，組織必須能執行。管理者要同時設計結構、文化與變革節奏，才能把方向變成成果。",
+              tags: ["Planning-Organizing-Leading-Controlling", "SMART", "CVF", "Kotter"],
+              deepPoints: [
+                "管理四功能是閉環：規劃定方向，組織配資源，領導推行動，控制做校正。",
+                "SMART 讓目標可執行且可追蹤，避免策略口號化。",
+                "非結構化組織提升敏捷，但若缺共享文化與透明機制，容易失控。",
+                "變革成敗關鍵在人心轉換，Kotter 八步驟把抽象轉型拆成可管理流程。"
+              ],
+              insights: [
+                {
+                  title: "管理含義",
+                  detail: "變革不是公告新制度，而是重塑日常行為與獎懲機制。"
+                },
+                {
+                  title: "口試重點",
+                  detail: "回答變革題時，務必交代『危機感建構』與『短期成果』如何連動。"
+                }
+              ],
+              frameworks: [
+                {
+                  name: "管理四大功能",
+                  detail: "Planning、Organizing、Leading、Controlling 形成策略落地的基本作業系統。"
+                },
+                {
+                  name: "SMART 目標",
+                  detail: "Specific、Measurable、Achievable、Relevant、Time-bound，讓執行有責任與時限。"
+                },
+                {
+                  name: "CVF 組織文化",
+                  detail: "Clan、Adhocracy、Market、Hierarchy 四型文化對創新與效率的取捨不同。"
+                },
+                {
+                  name: "Lewin + Kotter 變革模型",
+                  detail: "解凍-變革-再凍結搭配 8 步驟，提升轉型執行力與持久性。"
+                }
+              ],
+              cases: [
+                {
+                  name: "Ford 的 One Ford 轉型",
+                  detail: "先揭露危機、建立高層共識，再透過透明會議與短期成果重建組織信任。",
+                  takeaway: "危機敘事 + 紀律執行"
+                },
+                {
+                  name: "非結構化組織的雙面性",
+                  detail: "高自主可提升創新，但若問責與資訊流不足，會出現責任漂移與執行混亂。",
+                  takeaway: "彈性必須搭配治理"
+                }
+              ],
+              drill: {
+                questions: [
+                  "為何多數企業變革失敗不是因策略錯，而是執行失敗？",
+                  "CVF 四種文化如何影響創新與效率？",
+                  "SMART 目標如何支援控制功能？",
+                  "Ford 轉型案例裡，哪一步最關鍵？為什麼？"
+                ],
+                answerFramework: [
+                  "先定義變革目標與組織現況。",
+                  "再用模型拆解流程（Lewin/Kotter/CVF）。",
+                  "搭配案例說明行為層變化。",
+                  "最後提出監控機制（KPI、節點、回饋）。"
+                ],
+                pitfalls: [
+                  "把文化變革當成口號宣傳。",
+                  "沒有短期成果設計，導致轉型支持度下滑。",
+                  "忽略中階管理者在傳導中的樞紐作用。"
+                ]
+              }
+            },
+            {
+              id: "c9",
+              title: "九、人力資本與動機管理",
+              navHint: "員工生命週期、激勵理論、不可攜帶性",
+              summary: "人力資本是最難複製的競爭優勢。高效組織不是只招到好人才，而是能讓人才持續放大價值。",
+              tags: ["Employment Life Cycle", "Motivation Theories", "Expectancy", "Nonportability"],
+              deepPoints: [
+                "員工生命週期應視為產品旅程管理，從招募到離職每一段都影響績效與留任。",
+                "激勵不等於加薪，不同理論揭示了需求、期望、公平感與成就感的多維度驅動。",
+                "Vroom 期望理論強調：努力-績效-獎賞任一斷裂，激勵就失效。",
+                "企業專屬技能的不可攜帶性可形成人才護城河，降低明星跳槽後績效複製機率。"
+              ],
+              insights: [
+                {
+                  title: "管理含義",
+                  detail: "HR 應從行政支援升級為策略夥伴，直接連結人才策略與商業目標。"
+                },
+                {
+                  title: "口試重點",
+                  detail: "談激勵時要對應情境，不同理論適用場景不同，避免一招打天下。"
+                }
+              ],
+              frameworks: [
+                {
+                  name: "員工生命週期",
+                  detail: "招募、導入、發展、績效、留任、離職各環節互相牽動，不能只優化單點。"
+                },
+                {
+                  name: "激勵理論組合",
+                  detail: "Maslow、Herzberg、McGregor、Vroom、Adams 提供需求、公平與期望的綜合視角。"
+                },
+                {
+                  name: "人力資本理論",
+                  detail: "通用技能決定市場流動性，企業專屬技能決定內部價值與留任黏性。"
+                },
+                {
+                  name: "Nonportability",
+                  detail: "軟性、硬性、產品基礎不可攜帶性，說明為何明星跳槽後績效常下滑。"
+                }
+              ],
+              cases: [
+                {
+                  name: "華爾街明星分析師研究",
+                  detail: "頂尖績效常依賴原組織網路與系統，轉職後失去支援生態，表現難以複製。",
+                  takeaway: "績效是人與系統共同產物"
+                },
+                {
+                  name: "員工體驗產品化",
+                  detail: "前瞻企業以資料化方式優化員工旅程，提升留任與生產力。",
+                  takeaway: "人才管理要用產品思維"
+                }
+              ],
+              drill: {
+                questions: [
+                  "為何只提高薪資不一定能提高動機？",
+                  "Vroom 期望理論在績效管理上如何落地？",
+                  "企業如何建立專屬技能並降低核心人才流失風險？",
+                  "請比較 X 理論與 Y 理論對管理制度設計的影響。"
+                ],
+                answerFramework: [
+                  "先定義激勵問題屬於需求、公平或期望失衡。",
+                  "選擇對應理論解釋行為機制。",
+                  "提供制度設計建議（獎酬、發展、授權、評估）。",
+                  "最後說明衡量方式（留任率、績效、敬業度）。"
+                ],
+                pitfalls: [
+                  "把動機管理簡化成薪資管理。",
+                  "忽略公平感與程序正義。",
+                  "只談人才吸引，不談人才保留與知識沉澱。"
+                ]
+              }
+            },
+            {
+              id: "c10",
+              title: "十、全球市場擴張",
+              navHint: "Yip、Diamond、CAGE、跨國策略",
+              summary: "全球化是成長槓桿也是複雜度炸彈。成功關鍵在於精準衡量跨國距離，並設計匹配的策略與進入模式。",
+              tags: ["Yip Drivers", "Diamond Model", "CAGE", "Bartlett & Ghoshal"],
+              deepPoints: [
+                "Yip 四驅動告訴你產業是否值得全球整合：市場、成本、政府、競爭力量缺一不可。",
+                "Diamond 模型解釋國家競爭優勢如何由要素、需求、供應聚落與國內競爭共同塑造。",
+                "CAGE 提醒管理者不要只看地理距離，文化與制度距離常是失敗主因。",
+                "跨國策略是在全球整合與在地回應間做取捨，不同產業的最優點不同。"
+              ],
+              insights: [
+                {
+                  title: "管理含義",
+                  detail: "進入模式選擇本質是控制權、風險與速度的三角平衡。"
+                },
+                {
+                  title: "口試重點",
+                  detail: "全球化題目要先做環境適配判斷，再談進入模式，不要直接給答案。"
+                }
+              ],
+              frameworks: [
+                {
+                  name: "Yip 全球化驅動",
+                  detail: "市場趨同、成本壓力、政府鬆綁、競爭互動共同推動產業走向全球化。"
+                },
+                {
+                  name: "Porter Diamond",
+                  detail: "國家優勢不是自然給定，而是四要素互相強化的系統結果。"
+                },
+                {
+                  name: "CAGE 距離框架",
+                  detail: "文化、行政、地理、經濟距離會重塑跨國成本與執行難度。"
+                },
+                {
+                  name: "Bartlett & Ghoshal",
+                  detail: "International、Multi-domestic、Global、Transnational 四種策略對應不同壓力組合。"
+                },
+                {
+                  name: "市場進入模式",
+                  detail: "出口、授權、合資、全資子公司依序提高控制力與資本風險。"
+                }
+              ],
+              cases: [
+                {
+                  name: "Walmart 退出德國",
+                  detail: "忽略文化與法規距離，將美式管理硬套德國市場，最終成本高企且無法形成在地優勢。",
+                  takeaway: "跨國失敗常是距離誤判"
+                },
+                {
+                  name: "跨國策略的混合路徑",
+                  detail: "像星巴克、聯合利華在全球採購與品牌治理集中，但產品體驗保持在地化調整。",
+                  takeaway: "全球效率與在地回應可被設計性平衡"
+                }
+              ],
+              drill: {
+                questions: [
+                  "CAGE 為何比地理距離更能預測跨國失敗風險？",
+                  "何時應採取 Global strategy，何時該走 Multi-domestic？",
+                  "請用一個案例說明進入模式如何影響控制權與風險。",
+                  "Diamond 模型如何幫助企業判斷應在哪個國家布局供應鏈？"
+                ],
+                answerFramework: [
+                  "先做產業全球化驅動判斷（Yip）。",
+                  "再做國家/市場距離評估（CAGE）。",
+                  "選定跨國策略型態（Bartlett & Ghoshal）。",
+                  "最後匹配進入模式與治理安排。"
+                ],
+                pitfalls: [
+                  "只談市場規模，不談制度與文化成本。",
+                  "把進入模式當財務決策，忽略控制權與知識保護。",
+                  "沒有根據產業特性選擇跨國策略。"
+                ]
+              }
             }
           ]
         };
       },
-      created() {
-        // Initialize state for tabs and quizzes
-        this.topics.forEach((topic, tIdx) => {
-          topic.items.forEach((item, iIdx) => {
-            this.tabStates[`${tIdx}-${iIdx}`] = 'theory';
-            this.quizStates[`${tIdx}-${iIdx}`] = {
-              selected: null,
-              submitted: false,
-              isCorrect: false
-            };
+      computed: {
+        filteredChapters() {
+          const keyword = this.search.trim().toLowerCase();
+          if (!keyword) return this.chapters;
+
+          return this.chapters.filter((chapter) => {
+            const haystack = [
+              chapter.title,
+              chapter.navHint,
+              chapter.summary,
+              chapter.tags.join(" "),
+              chapter.deepPoints.join(" "),
+              chapter.frameworks.map((item) => `${item.name} ${item.detail}`).join(" "),
+              chapter.cases.map((item) => `${item.name} ${item.detail}`).join(" "),
+              chapter.drill.questions.join(" ")
+            ]
+              .join(" ")
+              .toLowerCase();
+
+            return haystack.includes(keyword);
           });
-        });
+        },
+        currentChapter() {
+          if (!this.filteredChapters.length) return null;
+          const safeIndex = Math.min(this.activeChapter, this.filteredChapters.length - 1);
+          return this.filteredChapters[safeIndex];
+        },
+        progressPercent() {
+          if (!this.filteredChapters.length) return 0;
+          const done = Math.min(this.activeChapter + 1, this.filteredChapters.length);
+          return Math.round((done / this.filteredChapters.length) * 100);
+        },
+        frameworkCount() {
+          return this.chapters.reduce((sum, chapter) => sum + chapter.frameworks.length, 0);
+        },
+        caseCount() {
+          return this.chapters.reduce((sum, chapter) => sum + chapter.cases.length, 0);
+        },
+        drillCount() {
+          return this.chapters.reduce((sum, chapter) => sum + chapter.drill.questions.length, 0);
+        }
       },
-      methods: {
-        toggleLang() {
-          this.lang = this.lang === 'zh' ? 'en' : 'zh';
+      watch: {
+        search() {
+          this.activeChapter = 0;
+          this.resetDrill();
         },
-        getTab(iIdx) {
-          return this.tabStates[`${this.activeTopic}-${iIdx}`];
-        },
-        setTab(iIdx, tabId) {
-          this.tabStates[`${this.activeTopic}-${iIdx}`] = tabId;
-        },
-        getQuizState(iIdx) {
-          return this.quizStates[`${this.activeTopic}-${iIdx}`];
-        },
-        submitQuiz(iIdx) {
-          const state = this.quizStates[`${this.activeTopic}-${iIdx}`];
-          const item = this.topics[this.activeTopic].items[iIdx];
-          if (state.selected !== null) {
-            state.submitted = true;
-            state.isCorrect = item.quiz.options[state.selected].isCorrect;
+        filteredChapters(list) {
+          if (!list.length) {
+            this.activeChapter = 0;
+            return;
+          }
+          if (this.activeChapter > list.length - 1) {
+            this.activeChapter = 0;
           }
         },
-        retryQuiz(iIdx) {
-          const state = this.quizStates[`${this.activeTopic}-${iIdx}`];
-          state.selected = null;
-          state.submitted = false;
-          state.isCorrect = false;
+        activeChapter() {
+          this.resetDrill();
+        }
+      },
+      methods: {
+        handleSelectChapter(index) {
+          this.activeChapter = Number(index) || 0;
+          this.activePanel = "deep";
+          this.resetDrill();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        },
+        clearSearch() {
+          this.search = "";
+        },
+        resetDrill() {
+          this.currentQuestion = "";
+          this.showAnswer = false;
+        },
+        drawQuestion() {
+          if (!this.currentChapter) return;
+          const pool = this.currentChapter.drill.questions;
+          if (!pool || !pool.length) return;
+          if (pool.length === 1) {
+            this.currentQuestion = pool[0];
+            this.showAnswer = true;
+            return;
+          }
+
+          let next = pool[Math.floor(Math.random() * pool.length)];
+          while (next === this.currentQuestion) {
+            next = pool[Math.floor(Math.random() * pool.length)];
+          }
+          this.currentQuestion = next;
+          this.showAnswer = true;
         }
       }
-    }).mount('#app');
+    }).mount("#app");
   </script>
 </body>
 </html>
