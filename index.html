@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>商業策略與組織 - 深度口試準備神器</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .fade-enter-active, .fade-leave-active { transition: opacity 0.3s ease, transform 0.3s ease; }
+    .fade-enter-from, .fade-leave-to { opacity: 0; transform: translateY(15px); }
+
+    .tab-fade-enter-active, .tab-fade-leave-active { transition: opacity 0.2s ease, transform 0.2s ease; }
+    .tab-fade-enter-from, .tab-fade-leave-to { opacity: 0; transform: translateY(5px); }
+
+    /* 大膽的動態線性漸層背景 */
+    .bold-gradient-bg {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* 玻璃擬態效果 */
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      border-right: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* 自訂捲軸 */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.4); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.6); }
+
+    /* 富文本內容樣式優化 */
+    .rich-content p { margin-bottom: 0.75rem; }
+    .rich-content p:last-child { margin-bottom: 0; }
+    .rich-content ul { list-style-type: disc; padding-left: 1.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem; }
+    .rich-content ol { list-style-type: decimal; padding-left: 1.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem; }
+    .rich-content li { margin-bottom: 0.25rem; }
+    .rich-content strong { color: #1e293b; font-weight: 700; }
+  </style>
+</head>
+<body class="bold-gradient-bg min-h-screen text-gray-800 selection:bg-pink-300 selection:text-pink-900">
+  <div id="app" class="flex flex-col h-screen">
+
+    <!-- Header -->
+    <header class="glass-panel text-white shadow-xl p-4 md:p-5 flex items-center justify-between z-20 shrink-0">
+      <div class="flex items-center space-x-3">
+        <div class="bg-white/20 backdrop-blur-md p-2.5 rounded-lg shadow-lg border border-white/30">
+          <i class="fa-solid fa-graduation-cap text-xl"></i>
+        </div>
+        <div>
+          <h1 class="text-lg md:text-2xl font-bold tracking-wide drop-shadow-md">{{ ui.appTitle[lang] }}</h1>
+          <p class="text-xs text-white/80 mt-1 uppercase tracking-wider font-semibold">{{ ui.appSub[lang] }}</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-4">
+        <div class="hidden md:flex items-center text-sm bg-black/10 px-4 py-2 rounded-full border border-white/20 backdrop-blur-md shadow-inner">
+          <i class="fa-solid fa-bolt text-yellow-300 mr-2"></i><span>{{ ui.interactive[lang] }}</span>
+        </div>
+        <!-- Language Toggle -->
+        <button @click="toggleLang" class="bg-white/20 hover:bg-white/30 backdrop-blur-md transition-all border border-white/40 px-3 py-1.5 rounded-full text-sm font-bold shadow-lg flex items-center">
+          <i class="fa-solid fa-earth-americas mr-2"></i> {{ lang === 'zh' ? 'EN' : '中文' }}
+        </button>
+      </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+
+      <!-- Sidebar -->
+      <aside class="w-1/3 lg:w-1/4 glass-panel shadow-[4px_0_24px_rgba(0,0,0,0.1)] overflow-y-auto z-10 hidden md:flex flex-col text-white">
+        <div class="p-4 bg-black/10 border-b border-white/20 sticky top-0 font-bold text-white/95 text-sm flex items-center shadow-sm backdrop-blur-md">
+          <i class="fa-solid fa-list-ul mr-2 text-pink-300"></i> {{ ui.toc[lang] }}
+        </div>
+        <ul class="flex-1 py-2">
+          <li v-for="(topic, index) in topics" :key="index"
+              @click="activeTopic = index"
+              class="cursor-pointer transition-all duration-200 border-l-4 px-4 py-3.5 flex items-center border-b border-white/10 last:border-0"
+              :class="activeTopic === index ? 'bg-white/20 border-l-pink-400 text-white font-bold shadow-md backdrop-blur-sm' : 'border-l-transparent hover:bg-white/10 text-white/70 hover:text-white'">
+            <span class="inline-block w-6 text-center mr-2 text-sm" :class="activeTopic === index ? 'text-pink-300 drop-shadow-md' : 'text-white/50'">
+              {{ index + 1 }}.
+            </span>
+            <span class="truncate">{{ topic.title[lang].split('、')[1] || topic.title[lang] }}</span>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="w-full md:w-2/3 lg:w-3/4 p-4 md:p-8 overflow-y-auto relative scroll-smooth">
+        <!-- Mobile Topic Selector -->
+        <div class="md:hidden mb-4">
+          <select v-model="activeTopic" class="w-full p-3 rounded-xl bg-white/80 backdrop-blur-md font-bold text-slate-800 outline-none border border-white/50 shadow-sm">
+            <option v-for="(topic, index) in topics" :value="index" :key="index">
+              {{ index + 1 }}. {{ topic.title[lang].split('、')[1] || topic.title[lang] }}
+            </option>
+          </select>
+        </div>
+
+        <transition name="fade" mode="out-in">
+          <div :key="activeTopic" class="max-w-4xl mx-auto pb-12">
+
+            <div class="mb-8 border-b border-white/30 pb-6">
+              <span class="text-pink-700 font-extrabold tracking-wider text-xs bg-white/90 px-3 py-1.5 rounded-full uppercase shadow-lg inline-block mb-3">
+                Chapter {{ activeTopic + 1 }}
+              </span>
+              <h2 class="text-3xl font-extrabold text-white tracking-tight drop-shadow-lg leading-snug">{{ topics[activeTopic].title[lang] }}</h2>
+              <p class="text-white/90 mt-3 text-[15px] leading-relaxed border-l-4 border-pink-400 pl-4 drop-shadow-md font-medium">
+                {{ topics[activeTopic].summary[lang] }}
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-8">
+              <div v-for="(item, idx) in topics[activeTopic].items" :key="idx"
+                   class="glass-card rounded-2xl shadow-xl border border-white/60 overflow-hidden hover:shadow-2xl transition-all duration-300 flex flex-col group">
+
+                <!-- Card Title -->
+                <div class="bg-slate-50/80 border-b border-slate-200 px-5 py-4 flex items-center justify-between relative overflow-hidden backdrop-blur-md">
+                  <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-pink-500 to-orange-400 opacity-80"></div>
+                  <h3 class="text-xl font-extrabold text-slate-800 flex items-center ml-2">
+                    {{ item.name[lang] }}
+                  </h3>
+                </div>
+
+                <!-- Interactive Tabs Buttons -->
+                <div class="flex flex-wrap border-b border-slate-100 bg-white">
+                  <button v-for="tab in tabs" :key="tab.id" @click="setTab(idx, tab.id)"
+                          class="flex-1 py-3 text-sm font-bold transition-colors border-b-2 flex items-center justify-center space-x-2"
+                          :class="getTab(idx) === tab.id ? 'border-pink-500 text-pink-600 bg-pink-50/30' : 'border-transparent text-slate-400 hover:text-slate-600 hover:bg-slate-50'">
+                    <i :class="tab.icon"></i> <span class="hidden sm:inline">{{ tab.label[lang] }}</span>
+                  </button>
+                </div>
+
+                <!-- Tab Content Area -->
+                <div class="p-6 md:p-8 flex-1 flex flex-col bg-white/80 min-h-[250px]">
+                  <transition name="tab-fade" mode="out-in">
+
+                    <!-- Tab 1: Theory -->
+                    <div v-if="getTab(idx) === 'theory'" :key="'theory'">
+                      <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-4 flex items-center">
+                        <i class="fa-solid fa-book-journal-whills mr-2 text-indigo-400"></i> {{ ui.tabTheory[lang] }}
+                      </span>
+                      <div class="rich-content text-slate-700 text-[15px] leading-relaxed" v-html="item.desc[lang]"></div>
+                    </div>
+
+                    <!-- Tab 2: ELI5 (Beginner) -->
+                    <div v-else-if="getTab(idx) === 'eli5'" :key="'eli5'" class="flex flex-col h-full justify-center items-center text-center px-4">
+                      <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-4 shadow-inner">
+                        <i class="fa-solid fa-face-smile-beam text-3xl text-orange-500"></i>
+                      </div>
+                      <h4 class="font-bold text-lg text-slate-800 mb-2">{{ ui.eli5Title[lang] }}</h4>
+                      <p class="text-slate-600 text-base md:text-lg leading-relaxed font-medium bg-orange-50/50 p-6 rounded-2xl border border-orange-100">
+                        {{ item.eli5[lang] }}
+                      </p>
+                    </div>
+
+                    <!-- Tab 3: Case Study -->
+                    <div v-else-if="getTab(idx) === 'case'" :key="'case'">
+                       <span class="text-xs font-bold text-orange-500 uppercase tracking-widest block mb-4 flex items-center">
+                        <i class="fa-solid fa-lightbulb mr-2 text-yellow-500"></i> {{ ui.tabCase[lang] }}
+                      </span>
+                      <div class="bg-gradient-to-br from-orange-50 to-pink-50 rounded-xl p-6 border border-orange-100/50 shadow-inner">
+                        <div class="rich-content text-[15px] text-orange-950/90 leading-relaxed font-medium" v-html="item.case[lang]"></div>
+                      </div>
+                    </div>
+
+                    <!-- Tab 4: Quiz -->
+                    <div v-else-if="getTab(idx) === 'quiz'" :key="'quiz'">
+                      <span class="text-xs font-bold text-pink-500 uppercase tracking-widest block mb-4 flex items-center">
+                        <i class="fa-solid fa-gamepad mr-2 text-pink-400"></i> {{ ui.tabQuiz[lang] }}
+                      </span>
+                      <div class="mb-4">
+                        <h4 class="font-bold text-slate-800 text-lg mb-4">{{ item.quiz.q[lang] }}</h4>
+                        <div class="space-y-3">
+                          <label v-for="(opt, oIdx) in item.quiz.options" :key="oIdx"
+                                 class="flex items-center p-4 rounded-xl border-2 cursor-pointer transition-all hover:bg-slate-50"
+                                 :class="getQuizState(idx).selected === oIdx ? 'border-pink-400 bg-pink-50/30' : 'border-slate-100 bg-white'">
+                            <input type="radio" :name="'quiz-'+idx" :value="oIdx" v-model="getQuizState(idx).selected" class="w-4 h-4 text-pink-500 focus:ring-pink-500 border-gray-300">
+                            <span class="ml-3 text-slate-700 font-medium">{{ opt.text[lang] }}</span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="mt-6">
+                        <button v-if="getQuizState(idx).selected !== null && !getQuizState(idx).submitted"
+                                @click="submitQuiz(idx)"
+                                class="bg-gradient-to-r from-pink-500 to-orange-400 text-white font-bold py-2.5 px-6 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
+                          {{ ui.checkAnswer[lang] }}
+                        </button>
+
+                        <div v-if="getQuizState(idx).submitted" class="p-5 rounded-xl border animate-[fade-in_0.3s_ease-out]"
+                             :class="getQuizState(idx).isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'">
+                          <h5 class="font-bold mb-1 flex items-center" :class="getQuizState(idx).isCorrect ? 'text-green-700' : 'text-red-700'">
+                            <i class="mr-2 fa-solid" :class="getQuizState(idx).isCorrect ? 'fa-circle-check' : 'fa-circle-xmark'"></i>
+                            {{ getQuizState(idx).isCorrect ? ui.correct[lang] : ui.incorrect[lang] }}
+                          </h5>
+                          <p class="text-sm font-medium" :class="getQuizState(idx).isCorrect ? 'text-green-800' : 'text-red-800'">
+                            {{ item.quiz.explanation[lang] }}
+                          </p>
+                          <button v-if="!getQuizState(idx).isCorrect" @click="retryQuiz(idx)" class="mt-3 text-sm text-red-600 underline font-bold hover:text-red-800">
+                            {{ ui.retry[lang] }}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </transition>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </transition>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          lang: 'zh', // 'zh' or 'en'
+          activeTopic: 0,
+          tabStates: {}, // Stores active tab per item e.g. '0-0': 'theory'
+          quizStates: {}, // Stores quiz state per item
+          tabs: [
+            { id: 'theory', icon: 'fa-solid fa-book-open', label: { zh: '學術理論', en: 'Theory' } },
+            { id: 'eli5', icon: 'fa-solid fa-child-reaching', label: { zh: '秒懂白話文', en: 'ELI5 (Simple)' } },
+            { id: 'case', icon: 'fa-solid fa-building', label: { zh: '實務個案', en: 'Case Study' } },
+            { id: 'quiz', icon: 'fa-solid fa-brain', label: { zh: '隨堂測驗', en: 'Quick Quiz' } }
+          ],
+          ui: {
+            appTitle: { zh: '商業組織與策略', en: 'Business Strategy & Org' },
+            appSub: { zh: '深度互動式準備神器', en: 'Interactive Prep Tool' },
+            interactive: { zh: '含白話文與隨堂測驗', en: 'Includes ELI5 & Quizzes' },
+            toc: { zh: '核心主題目錄', en: 'Table of Contents' },
+            tabTheory: { zh: '理論架構', en: 'Theoretical Framework' },
+            tabCase: { zh: '應用個案', en: 'Applied Case Study' },
+            tabQuiz: { zh: '牛刀小試', en: 'Test Your Knowledge' },
+            eli5Title: { zh: '如果向5歲小孩解釋...', en: 'Explain Like I\'m 5...' },
+            checkAnswer: { zh: '確認答案', en: 'Check Answer' },
+            correct: { zh: '完全正確！太厲害了 🎉', en: 'Spot on! Great job 🎉' },
+            incorrect: { zh: '觀念有點偏掉囉 🤔', en: 'Not quite right 🤔' },
+            retry: { zh: '再試一次', en: 'Try Again' }
+          },
+          topics: [
+            {
+              title: {
+                zh: "一、商業基礎與經濟系統",
+                en: "1. Business Foundations & Systems"
+              },
+              summary: {
+                zh: "探討企業如何作為一個系統運作，生產要素的配置，以及戰略資源分配。",
+                en: "Explores how a business operates as a system, resource allocation, and strategic planning."
+              },
+              items: [
+                {
+                  name: { zh: "系統性觀點 (Systems View)", en: "The Systems View of Business" },
+                  desc: {
+                    zh: "<p>將企業視為一個由多個相互依賴、持續互動的子系統所組成的有機整體，強調輸入 (Inputs)、轉換過程 (Processes)、輸出 (Outputs) 以及反饋迴路 (Feedback loop) 之間的動態平衡。</p>",
+                    en: "<p>Views the business as an organic whole made of interdependent subsystems. Emphasizes the dynamic balance between Inputs, Processes, Outputs, and Feedback loops.</p>"
+                  },
+                  eli5: {
+                    zh: "就像開一間手搖飲店！茶葉和水是「輸入」，搖飲料是「過程」，珍珠奶茶是「輸出」。客人說太甜（回饋），你下次就少放點糖（動態修正）。",
+                    en: "Like running a lemonade stand! Lemons and water are 'Inputs', mixing is the 'Process', and lemonade is the 'Output'. If customers say it's too sour (Feedback), you add more sugar next time."
+                  },
+                  case: {
+                    zh: "<strong>傳統 vs. 現代：</strong><br>傳統企業的反饋僅是監控品質。現代知識經濟中，企業透過巨量資料即時理解並預測客戶需求來動態調整整個價值鏈。",
+                    en: "<strong>Traditional vs. Modern:</strong><br>Traditional firms only monitor product quality. Modern firms use Big Data to predict customer needs and dynamically adjust their entire value chain."
+                  },
+                  quiz: {
+                    q: { zh: "在系統觀點中，顧客填寫滿意度問卷屬於哪個環節？", en: "In the systems view, a customer filling out a satisfaction survey belongs to which part?" },
+                    options: [
+                      { text: { zh: "輸入 (Input)", en: "Input" }, isCorrect: false },
+                      { text: { zh: "轉換過程 (Process)", en: "Process" }, isCorrect: false },
+                      { text: { zh: "反饋迴路 (Feedback loop)", en: "Feedback loop" }, isCorrect: true }
+                    ],
+                    explanation: {
+                      zh: "問卷是外界對「輸出結果」的反應，用來幫助企業修正未來的輸入與過程，這就是標準的「反饋迴路」。",
+                      en: "A survey is a reaction to the 'Output', used to fix future inputs and processes. This is the definition of a Feedback loop."
+                    }
+                  }
+                },
+                {
+                  name: { zh: "三個地平線模型 (Three Horizons)", en: "Three Horizon Model" },
+                  desc: {
+                    zh: "<p>McKinsey 提出的戰略框架：</p><ul><li><strong>H1 (保護核心)：</strong>目前的利潤與現金流來源。</li><li><strong>H2 (新興業務)：</strong>延伸現有核心能力，有望成為中期利潤引擎。</li><li><strong>H3 (顛覆未來)：</strong>探索破壞性技術，創造全新產業。</li></ul>",
+                    en: "<p>McKinsey's strategic framework:</p><ul><li><strong>H1 (Core):</strong> Current cash cow and profit source.</li><li><strong>H2 (Emerging):</strong> Extending core capabilities, future mid-term profit engine.</li><li><strong>H3 (Disruptive):</strong> Exploring disruptive tech to create entirely new industries.</li></ul>"
+                  },
+                  eli5: {
+                    zh: "想像你在玩遊戲：H1是每天幫你賺金幣的「主線任務」；H2是剛解鎖、正在升級的「副本」；H3是你正在秘密開發的「外掛級新武器」。三個都要顧，不然未來會輸！",
+                    en: "Imagine playing a game: H1 is your daily quest making you gold; H2 is a new dungeon you're slowly beating; H3 is researching a secret overpowered weapon for the endgame."
+                  },
+                  case: {
+                    zh: "<strong>Google (Alphabet)：</strong><br>搜尋引擎為現金牛(H1)，Google Cloud為新興業務(H2)，Waymo自動駕駛為顛覆未來(H3)。",
+                    en: "<strong>Google (Alphabet):</strong><br>Search engine is the cash cow (H1), Google Cloud is the emerging business (H2), and Waymo self-driving is the disruptive future (H3)."
+                  },
+                  quiz: {
+                    q: { zh: "對於一間傳統汽車廠，研發「全自動駕駛飛行車」最可能屬於哪一個地平線？", en: "For a traditional car maker, developing a 'fully autonomous flying car' likely belongs to which horizon?" },
+                    options: [
+                      { text: { zh: "H1 保護核心", en: "H1 Core" }, isCorrect: false },
+                      { text: { zh: "H3 顛覆未來", en: "H3 Disruptive" }, isCorrect: true }
+                    ],
+                    explanation: {
+                      zh: "飛行車屬於尚未成熟、具備破壞性且能創造全新產業的技術，因此屬於 H3。",
+                      en: "A flying car is immature, highly disruptive, and creates a new industry, making it an H3 initiative."
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              title: { zh: "二、創業精神與新創思維", en: "2. Entrepreneurship & Start-ups" },
+              summary: { zh: "了解創業家如何思考，以及在高度不確定性中如何行動。", en: "Understand how entrepreneurs think and act under extreme uncertainty." },
+              items: [
+                {
+                  name: { zh: "因果邏輯 vs. 效用邏輯", en: "Causation vs. Effectuation" },
+                  desc: {
+                    zh: "<p><strong>因果(Causation)：</strong>給定目標找資源(預測未來)。<br><strong>效用(Effectuation)：</strong>從現有手段出發創造未來(控制未來)。包含原則：手中鳥(現有資源)、可負擔虧損、瘋狂拼布(共創)、檸檬水(擁抱意外)。</p>",
+                    en: "<p><strong>Causation:</strong> Pick a goal, find resources to reach it (Prediction).<br><strong>Effectuation:</strong> Start with what you have, create the future (Control). Principles: Bird in Hand, Affordable Loss, Crazy Quilt (Co-create), Lemonade (Embrace surprises).</p>"
+                  },
+                  eli5: {
+                    zh: "【因果邏輯】是先決定今晚要吃「法式燉牛肉」，然後去超市買缺的食材。【效用邏輯】是打開冰箱，看到有雞蛋和剩飯，就決定發明一道「創意黃金炒飯」。創業家通常是後者！",
+                    en: "[Causation] is deciding to make 'French Stew', then shopping for missing items. [Effectuation] is opening the fridge, seeing eggs and leftover rice, and creating 'Golden Fried Rice'. Entrepreneurs do the latter!"
+                  },
+                  case: {
+                    zh: "頂尖連續創業家通常不盲目寫完美的商業計畫書預測 ROI，而是利用自己認識的人(手中鳥)與願意一起嘗試的夥伴(瘋狂拼布)直接採取行動。",
+                    en: "Expert serial entrepreneurs don't write perfect business plans to predict ROI. They take action using who they know (Bird in hand) and partners willing to try (Crazy quilt)."
+                  },
+                  quiz: {
+                    q: { zh: "創業者設定自己「最多只賠掉存款的20%就停損」，這符合哪一項效用邏輯原則？", en: "An entrepreneur decides 'I will stop if I lose 20% of my savings'. Which principle is this?" },
+                    options: [
+                      { text: { zh: "檸檬水原則 (Lemonade)", en: "Lemonade principle" }, isCorrect: false },
+                      { text: { zh: "可負擔的虧損 (Affordable Loss)", en: "Affordable Loss" }, isCorrect: true }
+                    ],
+                    explanation: {
+                      zh: "這正是「可負擔的虧損」的核心：不計算預期能賺多少，而是設定自己能承受的最大損失並控制它。",
+                      en: "This is the core of 'Affordable Loss': not calculating potential upside, but limiting and controlling the maximum downside."
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              title: { zh: "三、外部環境與產業分析", en: "3. External Environment & Industry" },
+              summary: { zh: "透過五力分析與生命週期，評估產業的吸引力與競爭激烈度。", en: "Evaluate industry attractiveness and rivalry via Five Forces and Life Cycles." },
+              items: [
+                {
+                  name: { zh: "波特五力分析 (Porter's 5 Forces)", en: "Porter's 5 Forces" },
+                  desc: {
+                    zh: "<ul><li><strong>現有競爭者：</strong>容易陷入價格戰。</li><li><strong>潛在進入者：</strong>取決於進入壁壘。</li><li><strong>替代品：</strong>為價格設定了上限。</li><li><strong>供應商能力：</strong>集中度高會榨取利潤。</li><li><strong>買方能力：</strong>買方強勢會迫使企業降價。</li></ul>",
+                    en: "<ul><li><strong>Rivalry:</strong> Can lead to price wars.</li><li><strong>New Entrants:</strong> Depends on entry barriers.</li><li><strong>Substitutes:</strong> Puts a ceiling on prices.</li><li><strong>Suppliers:</strong> High concentration extracts profit.</li><li><strong>Buyers:</strong> Strong buyers force price drops.</li></ul>"
+                  },
+                  eli5: {
+                    zh: "想像你在學校賣三明治。五力就是：1. 其他賣三明治的同學 (對手) 2. 隨時想加入賣三明治的人 (新進入) 3. 賣漢堡的同學 (替代品) 4. 賣麵包給你的老闆 (供應商) 5. 嫌貴不買的同學 (買方)。這五個越強，你越難賺錢！",
+                    en: "Imagine selling sandwiches at school. 1. Other sandwich sellers (Rivalry) 2. Kids who might start selling tomorrow (Entrants) 3. Burger sellers (Substitutes) 4. The bakery you buy bread from (Suppliers) 5. Picky kids complaining about price (Buyers). If these 5 are strong, you make no money!"
+                  },
+                  case: {
+                    zh: "<strong>全球航空產業：</strong>競爭激烈、顧客對票價敏感(買方強)、波音/空巴雙占(供應商強)、高鐵夾擊(替代品)，五力皆強導致產業長期處於低利潤。",
+                    en: "<strong>Global Airline Industry:</strong> Fierce rivalry, price-sensitive fliers (Strong buyers), Boeing/Airbus duopoly (Strong suppliers), high-speed rail (Substitutes). 5 strong forces = notoriously low profits."
+                  },
+                  quiz: {
+                    q: { zh: "如果一個產業有「極高的專利保護與動輒百億的設備投資」，這會影響哪一種力量？", en: "If an industry has 'strict patents and billions needed for equipment', which force does this impact?" },
+                    options: [
+                      { text: { zh: "增加買方議價能力", en: "Increases Buyer Power" }, isCorrect: false },
+                      { text: { zh: "降低潛在進入者威脅", en: "Reduces Threat of New Entrants" }, isCorrect: true }
+                    ],
+                    explanation: {
+                      zh: "極高的專利與資金需求是巨大的「進入壁壘」，能有效阻擋新競爭者進入市場。",
+                      en: "High patents and capital needs are massive 'Entry Barriers', effectively blocking new competitors from entering."
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              title: { zh: "四、內部資源與競爭優勢", en: "4. Internal Resources & Advantage" },
+              summary: { zh: "如何透過 VRIO 框架與策略權衡，建立對手偷不走的護城河。", en: "Building unstealable moats using the VRIO framework and strategic trade-offs." },
+              items: [
+                {
+                  name: { zh: "資源基礎觀點 (VRIO)", en: "Resource-Based View (VRIO)" },
+                  desc: {
+                    zh: "<p>評估資源是否具備：</p><ul><li><strong>V (Value) 價值：</strong>能抵禦威脅。</li><li><strong>R (Rarity) 稀缺性：</strong>極少數人擁有。</li><li><strong>I (Inimitability) 難以模仿：</strong>複製成本極高。</li><li><strong>O (Organization) 組織：</strong>公司有能力將其變現。</li></ul>",
+                    en: "<p>Evaluates if a resource is:</p><ul><li><strong>V (Valuable):</strong> Defends against threats.</li><li><strong>R (Rare):</strong> Controlled by few.</li><li><strong>I (Inimitable):</strong> Hard/costly to copy.</li><li><strong>O (Organized):</strong> Firm can exploit it.</li></ul>"
+                  },
+                  eli5: {
+                    zh: "VRIO 就像鑑定一把寶劍：V=鋒利能砍怪嗎？ R=全伺服器只有你有嗎？ I=別的鐵匠造得出來嗎？ O=你的等級夠高能裝備它嗎？ 四個都具備，你就是全服霸主！",
+                    en: "VRIO is like checking a sword in a game: V=Does it deal high damage? R=Is it a rare drop? I=Can other blacksmiths craft it? O=Is your level high enough to equip it? If yes to all, you dominate the server!"
+                  },
+                  case: {
+                    zh: "<strong>Starbucks：</strong>咖啡豆不稀缺(僅達競爭平價)。但「品牌形象與第三空間體驗」難以短期複製，符合VRIO，成為持續競爭優勢。",
+                    en: "<strong>Starbucks:</strong> Coffee beans aren't rare (just competitive parity). But its 'Brand & Third Place experience' is hard to copy quickly, meeting VRIO and creating sustained advantage."
+                  },
+                  quiz: {
+                    q: { zh: "某公司花錢買了市面上最頂級的電腦設備。這項資源最缺乏 VRIO 中的哪一項？", en: "A company bought the most expensive computers on the market. Which VRIO element is this missing most?" },
+                    options: [
+                      { text: { zh: "V 價值", en: "V - Valuable" }, isCorrect: false },
+                      { text: { zh: "I 難以模仿性", en: "I - Inimitable" }, isCorrect: true }
+                    ],
+                    explanation: {
+                      zh: "只要對手有錢，隨時可以去買一模一樣的電腦，因此非常容易被模仿 (缺乏 I)。",
+                      en: "As long as competitors have money, they can buy the exact same computers. It is extremely easy to copy (Lacks I)."
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        };
+      },
+      created() {
+        // Initialize state for tabs and quizzes
+        this.topics.forEach((topic, tIdx) => {
+          topic.items.forEach((item, iIdx) => {
+            this.tabStates[`${tIdx}-${iIdx}`] = 'theory';
+            this.quizStates[`${tIdx}-${iIdx}`] = {
+              selected: null,
+              submitted: false,
+              isCorrect: false
+            };
+          });
+        });
+      },
+      methods: {
+        toggleLang() {
+          this.lang = this.lang === 'zh' ? 'en' : 'zh';
+        },
+        getTab(iIdx) {
+          return this.tabStates[`${this.activeTopic}-${iIdx}`];
+        },
+        setTab(iIdx, tabId) {
+          this.tabStates[`${this.activeTopic}-${iIdx}`] = tabId;
+        },
+        getQuizState(iIdx) {
+          return this.quizStates[`${this.activeTopic}-${iIdx}`];
+        },
+        submitQuiz(iIdx) {
+          const state = this.quizStates[`${this.activeTopic}-${iIdx}`];
+          const item = this.topics[this.activeTopic].items[iIdx];
+          if (state.selected !== null) {
+            state.submitted = true;
+            state.isCorrect = item.quiz.options[state.selected].isCorrect;
+          }
+        },
+        retryQuiz(iIdx) {
+          const state = this.quizStates[`${this.activeTopic}-${iIdx}`];
+          state.selected = null;
+          state.submitted = false;
+          state.isCorrect = false;
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
